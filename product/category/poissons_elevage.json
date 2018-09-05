@@ -1,0 +1,1055 @@
+{
+"page": 1,
+"products": [
+{
+"last_editor": "lovefish",
+"last_image_t": 1530019899,
+"serving_size": "115g",
+"_id": "2200544",
+"minerals_prev_tags": [ ],
+"additives_original_tags": [ ],
+"debug_param_sorted_langs": [
+"fr"
+],
+"purchase_places": "Paris,France",
+"labels_tags": [
+"en:organic",
+"en:eu-organic"
+],
+"countries_hierarchy": [
+"en:france"
+],
+"interface_version_created": "20120622",
+"languages_hierarchy": [
+"en:french"
+],
+"nutrition_grades": "a",
+"cities_tags": [
+"lorient-morbihan-france"
+],
+"labels": "Bio,Bio européen",
+"images": {
+"1": {
+"uploaded_t": 1530019899,
+"sizes": {
+"100": {
+"w": 100,
+"h": 75
+},
+"400": {
+"w": 400,
+"h": 300
+},
+"full": {
+"h": 1500,
+"w": 2000
+}
+},
+"uploader": "lovefish"
+},
+"front_fr": {
+"imgid": "1",
+"y2": "-1",
+"angle": 0,
+"x2": "-1",
+"rev": "3",
+"normalize": null,
+"x1": "-1",
+"white_magic": null,
+"sizes": {
+"100": {
+"w": "100",
+"h": "75"
+},
+"200": {
+"h": 150,
+"w": 200
+},
+"400": {
+"w": 400,
+"h": 300
+},
+"full": {
+"w": 2000,
+"h": 1500
+}
+},
+"y1": "-1",
+"geometry": "0x0--5--5"
+}
+},
+"pnns_groups_2_tags": [
+"fish-and-seafood"
+],
+"editors_tags": [
+"lovefish"
+],
+"entry_dates_tags": [
+"2018-06-26",
+"2018-06",
+"2018"
+],
+"image_front_url": "https://static.openfoodfacts.org/images/products/2200544/front_fr.3.400.jpg",
+"stores": "Franprix",
+"categories_hierarchy": [
+"en:seafood",
+"en:fishes",
+"en:bass",
+"fr:Poisson BIO",
+"fr:Poisson d'élevage",
+"fr:Poisson frais"
+],
+"expiration_date_debug_tags": [ ],
+"image_thumb_url": "https://static.openfoodfacts.org/images/products/2200544/front_fr.3.100.jpg",
+"max_imgid": "1",
+"image_front_small_url": "https://static.openfoodfacts.org/images/products/2200544/front_fr.3.200.jpg",
+"brands_tags": [ ],
+"countries": "France",
+"allergens_debug_tags": [ ],
+"ingredients_text_fr": "100 % Dicentrarchus labrax",
+"image_url": "https://static.openfoodfacts.org/images/products/2200544/front_fr.3.400.jpg",
+"selected_images": {
+"front": {
+"display": {
+"fr": "https://static.openfoodfacts.org/images/products/2200544/front_fr.3.400.jpg"
+},
+"thumb": {
+"fr": "https://static.openfoodfacts.org/images/products/2200544/front_fr.3.100.jpg"
+},
+"small": {
+"fr": "https://static.openfoodfacts.org/images/products/2200544/front_fr.3.200.jpg"
+}
+}
+},
+"quantity": "115 g",
+"brands": "",
+"last_modified_by": "lovefish",
+"ingredients_ids_debug": [
+"100-dicentrarchus-labrax"
+],
+"categories_prev_hierarchy": [
+"en:seafood",
+"en:fishes",
+"en:bass",
+"fr:Poisson BIO",
+"fr:Poisson d'élevage",
+"fr:Poisson frais"
+],
+"emb_codes_tags": [
+"fr-56-121-132-ec"
+],
+"link_debug_tags": [ ],
+"states": "en:to-be-completed, en:nutrition-facts-completed, en:ingredients-completed, en:expiration-date-to-be-completed, en:packaging-code-completed, en:characteristics-to-be-completed, en:categories-completed, en:brands-to-be-completed, en:packaging-completed, en:quantity-completed, en:product-name-completed, en:photos-to-be-validated, en:photos-uploaded",
+"nutrition_score_warning_no_fruits_vegetables_nuts": 1,
+"origins": "",
+"ingredients_text_fr_debug_tags": [ ],
+"nova_groups": 1,
+"nutrition_grades_tags": [
+"a"
+],
+"languages_codes": {
+"fr": 4
+},
+"traces_tags": [ ],
+"origins_debug_tags": [ ],
+"additives_prev_n": 0,
+"no_nutrition_data": "",
+"origins_tags": [ ],
+"traces_hierarchy": [ ],
+"generic_name_fr": "Filet de bar BIO sur peau",
+"id": "2200544",
+"states_tags": [
+"en:to-be-completed",
+"en:nutrition-facts-completed",
+"en:ingredients-completed",
+"en:expiration-date-to-be-completed",
+"en:packaging-code-completed",
+"en:characteristics-to-be-completed",
+"en:categories-completed",
+"en:brands-to-be-completed",
+"en:packaging-completed",
+"en:quantity-completed",
+"en:product-name-completed",
+"en:photos-to-be-validated",
+"en:photos-uploaded"
+],
+"ingredients_from_palm_oil_n": 0,
+"product_name": "Filet de bar BIO sur peau",
+"ingredients_from_palm_oil_tags": [ ],
+"lang_debug_tags": [ ],
+"created_t": 1530019881,
+"minerals_tags": [ ],
+"correctors_tags": [
+"lovefish"
+],
+"labels_debug_tags": [ ],
+"ingredients_debug": [
+"100 % Dicentrarchus labrax"
+],
+"labels_prev_hierarchy": [
+"en:organic",
+"en:eu-organic"
+],
+"nucleotides_prev_tags": [ ],
+"pnns_groups_1_tags": [
+"fish-meat-eggs"
+],
+"allergens_hierarchy": [ ],
+"amino_acids_prev_tags": [ ],
+"ingredients_hierarchy": [
+"fr:Dicentrarchus labrax"
+],
+"nutrition_data_prepared": "",
+"ingredients_n": 1,
+"allergens_tags": [ ],
+"ingredients_text": "100 % Dicentrarchus labrax",
+"sortkey": 530628885,
+"ingredients_text_debug": "100 % Dicentrarchus labrax",
+"traces": "",
+"ingredients": [
+{
+"percent": "100",
+"id": "fr:Dicentrarchus labrax",
+"text": "Dicentrarchus labrax",
+"rank": 1
+}
+],
+"ingredients_that_may_be_from_palm_oil_tags": [ ],
+"unknown_ingredients_n": 1,
+"nova_group": 1,
+"ingredients_tags": [
+"fr:dicentrarchus-labrax"
+],
+"vitamins_prev_tags": [ ],
+"last_edit_dates_tags": [
+"2018-07-03",
+"2018-07",
+"2018"
+],
+"nova_group_debug": "",
+"nutrition_score_warning_no_fiber": 1,
+"nutrition_data_per": "100g",
+"link": "",
+"emb_codes": "FR 56.121.132 EC",
+"update_key": "additives20180816d",
+"categories_prev_tags": [
+"en:seafood",
+"en:fishes",
+"en:bass",
+"fr:poisson-bio",
+"fr:poisson-d-elevage",
+"fr:poisson-frais"
+],
+"categories_tags": [
+"en:seafood",
+"en:fishes",
+"en:bass",
+"fr:poisson-bio",
+"fr:poisson-d-elevage",
+"fr:poisson-frais"
+],
+"additives_prev_tags": [ ],
+"purchase_places_debug_tags": [ ],
+"code": "2200544",
+"image_small_url": "https://static.openfoodfacts.org/images/products/2200544/front_fr.3.200.jpg",
+"ingredients_original_tags": [
+"fr:Dicentrarchus labrax"
+],
+"last_image_dates_tags": [
+"2018-06-26",
+"2018-06",
+"2018"
+],
+"lang": "fr",
+"categories_debug_tags": [ ],
+"product_quantity": 115,
+"nutrient_levels_tags": [
+"en:fat-in-low-quantity",
+"en:saturated-fat-in-low-quantity",
+"en:sugars-in-low-quantity",
+"en:salt-in-low-quantity"
+],
+"generic_name": "Filet de bar BIO sur peau",
+"expiration_date": "",
+"nova_groups_tags": [
+"en:1-unprocessed-or-minimally-processed-foods"
+],
+"brands_debug_tags": [ ],
+"traces_debug_tags": [ ],
+"serving_size_debug_tags": [ ],
+"nutrition_score_debug": " -- energy 0 + sat-fat 0 + fr-sat-fat-for-fats 3 + sugars 0 + sodium 0 - fruits 0% 0 - fiber 0 - proteins 5 -- fsa -5 -- fr -5",
+"pnns_groups_1": "Fish Meat Eggs",
+"languages_tags": [
+"en:french",
+"en:1"
+],
+"countries_debug_tags": [ ],
+"last_modified_t": 1530628885,
+"quantity_debug_tags": [ ],
+"additives_debug_tags": [ ],
+"purchase_places_tags": [
+"paris",
+"france"
+],
+"generic_name_fr_debug_tags": [ ],
+"labels_hierarchy": [
+"en:organic",
+"en:eu-organic"
+],
+"nutrition_data_per_debug_tags": [ ],
+"interface_version_modified": "20120622",
+"nutriments": {
+"proteins_unit": "g",
+"proteins_serving": 22.2,
+"energy": 96.4,
+"saturated-fat_unit": "g",
+"sodium_unit": "mg",
+"salt_value": "223.272",
+"carbohydrates": "0",
+"salt": 0.223272,
+"nova-group": 1,
+"fat_serving": 2.45,
+"sugars_serving": "0",
+"sodium_value": "87.9023622047244",
+"energy_value": "96.4",
+"sugars_unit": "g",
+"carbohydrates_serving": "0",
+"sodium_100g": 0.0879023622047244,
+"sodium_serving": 0.101,
+"energy_100g": 96.4,
+"sugars_100g": "0",
+"fat_value": "2.13",
+"carbohydrates_100g": "0",
+"fat_100g": 2.13,
+"fat_unit": "g",
+"proteins": 19.3,
+"carbohydrates_value": "0",
+"sodium": 0.0879023622047244,
+"sugars_value": "0",
+"energy_unit": "kJ",
+"salt_unit": "mg",
+"proteins_100g": 19.3,
+"nutrition-score-uk": "-5",
+"nutrition-score-uk_100g": "-5",
+"salt_100g": 0.223272,
+"energy_serving": "111",
+"sugars": "0",
+"saturated-fat_value": "0.491",
+"saturated-fat_serving": 0.565,
+"nova-group_serving": 1,
+"carbohydrates_unit": "g",
+"fat": 2.13,
+"proteins_value": "19.3",
+"saturated-fat": 0.491,
+"nutrition-score-fr": "-5",
+"salt_serving": 0.257,
+"saturated-fat_100g": 0.491,
+"nova-group_100g": 1,
+"nutrition-score-fr_100g": "-5"
+},
+"_keywords": [
+"poisson",
+"sur",
+"filet",
+"elevage",
+"bar",
+"mer",
+"frai",
+"peau",
+"de",
+"produit",
+"la",
+"europeen",
+"bio"
+],
+"manufacturing_places_debug_tags": [ ],
+"pnns_groups_2": "Fish and seafood",
+"emb_codes_debug_tags": [ ],
+"nutrition_data": "on",
+"packaging": "Frais",
+"rev": 7,
+"image_front_thumb_url": "https://static.openfoodfacts.org/images/products/2200544/front_fr.3.100.jpg",
+"product_name_fr": "Filet de bar BIO sur peau",
+"languages": {
+"en:french": 4
+},
+"checkers_tags": [ ],
+"packaging_tags": [
+"frais"
+],
+"allergens_from_ingredients": "",
+"stores_tags": [
+"franprix"
+],
+"unknown_nutrients_tags": [ ],
+"labels_prev_tags": [
+"en:organic",
+"en:eu-organic"
+],
+"vitamins_tags": [ ],
+"ingredients_n_tags": [
+"1",
+"1-10"
+],
+"amino_acids_tags": [ ],
+"photographers_tags": [
+"lovefish"
+],
+"nutrition_data_prepared_per_debug_tags": [ ],
+"traces_from_ingredients": "",
+"packaging_debug_tags": [ ],
+"nutrition_data_prepared_per": "100g",
+"allergens": "",
+"additives_n": 0,
+"stores_debug_tags": [ ],
+"states_hierarchy": [
+"en:to-be-completed",
+"en:nutrition-facts-completed",
+"en:ingredients-completed",
+"en:expiration-date-to-be-completed",
+"en:packaging-code-completed",
+"en:characteristics-to-be-completed",
+"en:categories-completed",
+"en:brands-to-be-completed",
+"en:packaging-completed",
+"en:quantity-completed",
+"en:product-name-completed",
+"en:photos-to-be-validated",
+"en:photos-uploaded"
+],
+"nucleotides_tags": [ ],
+"lc": "fr",
+"creator": "lovefish",
+"manufacturing_places_tags": [
+"lorient",
+"morbihan",
+"bretagne",
+"france"
+],
+"ingredients_text_with_allergens": "100 % Dicentrarchus labrax",
+"manufacturing_places": "Lorient,Morbihan,Bretagne,France",
+"codes_tags": [
+"code-7",
+"2200544",
+"220054x",
+"22005xx",
+"2200xxx",
+"220xxxx",
+"22xxxxx",
+"2xxxxxx"
+],
+"quality_tags": [
+"ingredients-unknown-score-above-0",
+"ingredients-100-percent-unknown"
+],
+"url": "https://fr.openfoodfacts.org/produit/2200544/filet-de-bar-bio-sur-peau",
+"countries_tags": [
+"en:france"
+],
+"ingredients_that_may_be_from_palm_oil_n": 0,
+"additives_old_tags": [ ],
+"nutrition_grade_fr": "a",
+"ingredients_from_or_that_may_be_from_palm_oil_n": 0,
+"additives_prev_original_tags": [ ],
+"categories": "Produits de la mer,Poissons,Bars,Poisson BIO,Poisson d'élevage,Poisson frais",
+"product_name_fr_debug_tags": [ ],
+"serving_quantity": 115,
+"ingredients_text_with_allergens_fr": "100 % Dicentrarchus labrax",
+"emb_codes_orig": "FR 56.121.132.CE",
+"additives_tags": [ ],
+"complete": 0,
+"additives_old_n": 0,
+"informers_tags": [
+"lovefish"
+],
+"nutrient_levels": {
+"sugars": "low",
+"fat": "low",
+"salt": "low",
+"saturated-fat": "low"
+},
+"misc_tags": [
+"en:nutrition-no-fiber",
+"en:nutrition-no-fruits-vegetables-nuts",
+"en:nutrition-no-fiber-or-fruits-vegetables-nuts",
+"en:nutriscore-computed"
+]
+},
+{
+"last_edit_dates_tags": [
+"2018-06-27",
+"2018-06",
+"2018"
+],
+"nova_group_debug": "",
+"nutrition_data_per": "100g",
+"nutrition_score_warning_no_fiber": 1,
+"ingredients_text_debug": "100 % Dicentrarchus labrax (_poisson_)",
+"ingredients": [
+{
+"text": "Dicentrarchus labrax",
+"rank": 1,
+"id": "fr:Dicentrarchus labrax",
+"percent": "100"
+},
+{
+"id": "en:fish",
+"rank": 2,
+"text": "_poisson_"
+}
+],
+"traces": "",
+"ingredients_that_may_be_from_palm_oil_tags": [ ],
+"unknown_ingredients_n": 1,
+"nova_group": 1,
+"ingredients_tags": [
+"fr:dicentrarchus-labrax",
+"en:fish"
+],
+"vitamins_prev_tags": [ ],
+"ingredients_n": 2,
+"allergens_tags": [
+"en:fish"
+],
+"ingredients_text": "100 % Dicentrarchus labrax (_poisson_)",
+"sortkey": 1530131718,
+"allergens_hierarchy": [
+"en:fish"
+],
+"amino_acids_prev_tags": [ ],
+"ingredients_hierarchy": [
+"fr:Dicentrarchus labrax",
+"en:fish"
+],
+"nutrition_data_prepared": "",
+"minerals_tags": [ ],
+"ingredients_debug": [
+"100 % Dicentrarchus labrax ",
+"(",
+"(",
+null,
+null,
+"_poisson_)"
+],
+"correctors_tags": [
+"lovefish",
+"beniben"
+],
+"labels_debug_tags": [
+"added-de-100-naturlich",
+"added-de-eu-landwirtschaft",
+"removed-en-100-natural",
+"removed-en-eu-agriculture"
+],
+"labels_prev_hierarchy": [
+"en:organic",
+"en:eu-organic",
+"en:100-natural",
+"en:eu-agriculture",
+"en:fr-bio-10"
+],
+"nucleotides_prev_tags": [ ],
+"pnns_groups_1_tags": [
+"fish-meat-eggs"
+],
+"states_tags": [
+"en:to-be-checked",
+"en:complete",
+"en:nutrition-facts-completed",
+"en:ingredients-completed",
+"en:expiration-date-completed",
+"en:packaging-code-completed",
+"en:characteristics-completed",
+"en:categories-completed",
+"en:brands-completed",
+"en:packaging-completed",
+"en:quantity-completed",
+"en:product-name-completed",
+"en:photos-validated",
+"en:photos-uploaded"
+],
+"ingredients_from_palm_oil_n": 0,
+"product_name": "Filet de Bar Bio",
+"ingredients_from_palm_oil_tags": [ ],
+"lang_debug_tags": [ ],
+"created_t": 1529933295,
+"additives_prev_n": 0,
+"no_nutrition_data": "on",
+"origins_tags": [ ],
+"traces_hierarchy": [ ],
+"id": "220544",
+"generic_name_fr": "Filet de Bar Bio sur peau",
+"origins": "",
+"ingredients_text_fr_debug_tags": [ ],
+"nutrition_grades_tags": [
+"a"
+],
+"nova_groups": 1,
+"languages_codes": {
+"fr": 5
+},
+"traces_tags": [ ],
+"origins_debug_tags": [ ],
+"last_modified_by": "beniben",
+"ingredients_ids_debug": [
+"100-dicentrarchus-labrax",
+"poisson"
+],
+"categories_prev_hierarchy": [
+"en:seafood",
+"en:fishes",
+"en:fish-fillets",
+"en:bass",
+"fr:Poisson d'élevage",
+"fr:Poissons d'élevage",
+"fr:Poissons frais"
+],
+"link_debug_tags": [ ],
+"emb_codes_tags": [
+"fr-56-121-132-ec"
+],
+"nutrition_score_warning_no_fruits_vegetables_nuts": 1,
+"states": "en:to-be-checked, en:complete, en:nutrition-facts-completed, en:ingredients-completed, en:expiration-date-completed, en:packaging-code-completed, en:characteristics-completed, en:categories-completed, en:brands-completed, en:packaging-completed, en:quantity-completed, en:product-name-completed, en:photos-validated, en:photos-uploaded",
+"ingredients_text_fr": "100 % Dicentrarchus labrax (_poisson_)",
+"image_url": "https://static.openfoodfacts.org/images/products/220544/front_fr.3.400.jpg",
+"quantity": "150 g",
+"selected_images": {
+"ingredients": {
+"thumb": {
+"fr": "https://static.openfoodfacts.org/images/products/220544/ingredients_fr.6.100.jpg"
+},
+"small": {
+"fr": "https://static.openfoodfacts.org/images/products/220544/ingredients_fr.6.200.jpg"
+},
+"display": {
+"fr": "https://static.openfoodfacts.org/images/products/220544/ingredients_fr.6.400.jpg"
+}
+},
+"front": {
+"small": {
+"fr": "https://static.openfoodfacts.org/images/products/220544/front_fr.3.200.jpg"
+},
+"thumb": {
+"fr": "https://static.openfoodfacts.org/images/products/220544/front_fr.3.100.jpg"
+},
+"display": {
+"fr": "https://static.openfoodfacts.org/images/products/220544/front_fr.3.400.jpg"
+}
+}
+},
+"brands": "Au Bon Endroit Au Bon Moment",
+"expiration_date_debug_tags": [ ],
+"image_thumb_url": "https://static.openfoodfacts.org/images/products/220544/front_fr.3.100.jpg",
+"max_imgid": "1",
+"image_front_small_url": "https://static.openfoodfacts.org/images/products/220544/front_fr.3.200.jpg",
+"brands_tags": [
+"au-bon-endroit-au-bon-moment"
+],
+"countries": "France",
+"allergens_debug_tags": [ ],
+"image_front_url": "https://static.openfoodfacts.org/images/products/220544/front_fr.3.400.jpg",
+"stores": "Franprix",
+"categories_hierarchy": [
+"en:seafood",
+"en:fishes",
+"en:fish-fillets",
+"en:bass",
+"fr:Poisson d'élevage",
+"fr:Poissons d'élevage",
+"fr:Poissons frais"
+],
+"images": {
+"1": {
+"uploader": "lovefish",
+"sizes": {
+"100": {
+"h": 75,
+"w": 100
+},
+"400": {
+"h": 300,
+"w": 400
+},
+"full": {
+"w": 2000,
+"h": 1500
+}
+},
+"uploaded_t": 1529933319
+},
+"front_fr": {
+"x1": "-1",
+"white_magic": null,
+"sizes": {
+"100": {
+"h": "75",
+"w": "100"
+},
+"200": {
+"h": 150,
+"w": 200
+},
+"400": {
+"w": 400,
+"h": 300
+},
+"full": {
+"h": 1500,
+"w": 2000
+}
+},
+"y1": "-1",
+"geometry": "0x0--5--5",
+"normalize": null,
+"rev": "3",
+"imgid": "1",
+"y2": "-1",
+"angle": 0,
+"x2": "-1"
+},
+"ingredients_fr": {
+"x2": "144.85546875",
+"imgid": "1",
+"angle": "0",
+"y2": "150.1015625",
+"rev": "6",
+"normalize": "false",
+"y1": "114.640625",
+"geometry": "329x177-395-573",
+"white_magic": "false",
+"x1": "79.1796875",
+"sizes": {
+"100": {
+"w": 100,
+"h": 54
+},
+"200": {
+"w": 200,
+"h": 108
+},
+"400": {
+"w": 329,
+"h": 177
+},
+"full": {
+"h": 177,
+"w": 329
+}
+}
+}
+},
+"pnns_groups_2_tags": [
+"fish-and-seafood"
+],
+"editors_tags": [
+"beniben",
+"lovefish"
+],
+"image_ingredients_url": "https://static.openfoodfacts.org/images/products/220544/ingredients_fr.6.400.jpg",
+"entry_dates_tags": [
+"2018-06-25",
+"2018-06",
+"2018"
+],
+"countries_hierarchy": [
+"en:france"
+],
+"purchase_places": "Paris,France",
+"labels_tags": [
+"en:organic",
+"en:eu-organic",
+"de:100-naturlich",
+"de:eu-landwirtschaft",
+"en:fr-bio-10"
+],
+"interface_version_created": "20120622",
+"languages_hierarchy": [
+"en:french"
+],
+"nutrition_grades": "a",
+"labels": "Bio,Bio européen,100% naturel,Agriculture UE,FR-BIO-10",
+"cities_tags": [
+"lorient-morbihan-france"
+],
+"last_editor": "beniben",
+"serving_size": "",
+"last_image_t": 1529933320,
+"minerals_prev_tags": [ ],
+"_id": "220544",
+"additives_original_tags": [ ],
+"debug_param_sorted_langs": [
+"fr"
+],
+"emb_codes_orig": "FR 56.121.132.CE",
+"additives_tags": [ ],
+"complete": 1,
+"additives_old_n": 0,
+"informers_tags": [
+"lovefish",
+"beniben"
+],
+"nutrient_levels": {
+"fat": "low",
+"salt": "low",
+"sugars": "low",
+"saturated-fat": "low"
+},
+"misc_tags": [
+"en:nutrition-no-fiber",
+"en:nutrition-no-fruits-vegetables-nuts",
+"en:nutrition-no-fiber-or-fruits-vegetables-nuts",
+"en:nutriscore-computed"
+],
+"additives_prev_original_tags": [ ],
+"categories": "Produits de la mer,Poissons,Filets de poissons,Bars,Poisson d'élevage,Poissons d'élevage,Poissons frais",
+"product_name_fr_debug_tags": [ ],
+"serving_quantity": 0,
+"ingredients_text_with_allergens_fr": "100 % Dicentrarchus labrax (<span class=\"allergen\">poisson</span>)",
+"additives_old_tags": [ ],
+"nutrition_grade_fr": "a",
+"ingredients_from_or_that_may_be_from_palm_oil_n": 0,
+"ingredients_that_may_be_from_palm_oil_n": 0,
+"codes_tags": [
+"code-6",
+"220544",
+"22054x",
+"2205xx",
+"220xxx",
+"22xxxx",
+"2xxxxx"
+],
+"manufacturing_places": "France,Lorient",
+"quality_tags": [
+"ingredients-50-percent-unknown",
+"no-nutrition-data"
+],
+"url": "https://fr.openfoodfacts.org/produit/220544/filet-de-bar-bio-au-bon-endroit-au-bon-moment",
+"countries_tags": [
+"en:france"
+],
+"nucleotides_tags": [ ],
+"lc": "fr",
+"creator": "lovefish",
+"ingredients_text_with_allergens": "100 % Dicentrarchus labrax (<span class=\"allergen\">poisson</span>)",
+"manufacturing_places_tags": [
+"france",
+"lorient"
+],
+"nutrition_data_prepared_per": "100g",
+"allergens": "Poisson, poisson",
+"additives_n": 0,
+"stores_debug_tags": [ ],
+"states_hierarchy": [
+"en:to-be-checked",
+"en:complete",
+"en:nutrition-facts-completed",
+"en:ingredients-completed",
+"en:expiration-date-completed",
+"en:packaging-code-completed",
+"en:characteristics-completed",
+"en:categories-completed",
+"en:brands-completed",
+"en:packaging-completed",
+"en:quantity-completed",
+"en:product-name-completed",
+"en:photos-validated",
+"en:photos-uploaded"
+],
+"image_ingredients_thumb_url": "https://static.openfoodfacts.org/images/products/220544/ingredients_fr.6.100.jpg",
+"amino_acids_tags": [ ],
+"ingredients_n_tags": [
+"2",
+"1-10"
+],
+"photographers_tags": [
+"lovefish"
+],
+"nutrition_data_prepared_per_debug_tags": [ ],
+"traces_from_ingredients": "",
+"packaging_debug_tags": [ ],
+"packaging": "frais,barquette,plastique",
+"rev": 8,
+"image_front_thumb_url": "https://static.openfoodfacts.org/images/products/220544/front_fr.3.100.jpg",
+"product_name_fr": "Filet de Bar Bio",
+"image_ingredients_small_url": "https://static.openfoodfacts.org/images/products/220544/ingredients_fr.6.200.jpg",
+"packaging_tags": [
+"frais",
+"barquette",
+"plastique"
+],
+"checkers_tags": [ ],
+"languages": {
+"en:french": 5
+},
+"stores_tags": [
+"franprix"
+],
+"allergens_from_ingredients": "poisson",
+"unknown_nutrients_tags": [ ],
+"vitamins_tags": [ ],
+"labels_prev_tags": [
+"en:organic",
+"en:eu-organic",
+"en:100-natural",
+"en:eu-agriculture",
+"en:fr-bio-10"
+],
+"interface_version_modified": "20120622",
+"nutriments": {
+"fat_100g": 2.13,
+"fat_unit": "g",
+"sugars_100g": "0",
+"fat_value": "2.13",
+"energy_100g": 96.4,
+"carbohydrates_100g": "0",
+"sugars_value": "0",
+"sodium": 0.0879023622047244,
+"proteins": 19.3,
+"carbohydrates_value": "0",
+"sugars_unit": "g",
+"sodium_value": "87.9023622047244",
+"energy_value": "96.4",
+"sodium_serving": "",
+"carbohydrates_serving": "",
+"sodium_100g": 0.0879023622047244,
+"salt": 0.223272,
+"fat_serving": "",
+"sugars_serving": "",
+"nova-group": 1,
+"saturated-fat_unit": "g",
+"energy": 96.4,
+"proteins_unit": "g",
+"proteins_serving": "",
+"carbohydrates": "0",
+"sodium_unit": "mg",
+"salt_value": "223.272",
+"nutrition-score-fr": "-5",
+"nova-group_100g": 1,
+"nutrition-score-fr_100g": "-5",
+"salt_serving": "",
+"saturated-fat_100g": 0.491,
+"fat": 2.13,
+"proteins_value": "19.3",
+"nova-group_serving": 1,
+"carbohydrates_unit": "g",
+"saturated-fat": 0.491,
+"saturated-fat_value": "0.491",
+"sugars": "0",
+"saturated-fat_serving": "",
+"nutrition-score-uk_100g": "-5",
+"energy_unit": "kJ",
+"salt_unit": "mg",
+"proteins_100g": 19.3,
+"nutrition-score-uk": "-5",
+"energy_serving": "",
+"salt_100g": 0.223272
+},
+"_keywords": [
+"100",
+"sur",
+"bon",
+"filet",
+"peau",
+"de",
+"au",
+"ue",
+"produit",
+"mer",
+"europeen",
+"endroit",
+"agriculture",
+"la",
+"frai",
+"bio",
+"elevage",
+"naturel",
+"bar",
+"moment",
+"poisson",
+"fr-bio-10"
+],
+"manufacturing_places_debug_tags": [ ],
+"pnns_groups_2": "Fish and seafood",
+"emb_codes_debug_tags": [ ],
+"nutrition_data": "on",
+"labels_hierarchy": [
+"en:organic",
+"en:eu-organic",
+"de:100-naturlich",
+"de:eu-landwirtschaft",
+"en:fr-bio-10"
+],
+"nutrition_data_per_debug_tags": [ ],
+"languages_tags": [
+"en:french",
+"en:1"
+],
+"countries_debug_tags": [ ],
+"purchase_places_tags": [
+"paris",
+"france"
+],
+"additives_debug_tags": [ ],
+"quantity_debug_tags": [ ],
+"last_modified_t": 1530131718,
+"generic_name_fr_debug_tags": [ ],
+"traces_debug_tags": [ ],
+"serving_size_debug_tags": [ ],
+"nutrition_score_debug": " -- energy 0 + sat-fat 0 + fr-sat-fat-for-fats 3 + sugars 0 + sodium 0 - fruits 0% 0 - fiber 0 - proteins 5 -- fsa -5 -- fr -5",
+"pnns_groups_1": "Fish Meat Eggs",
+"generic_name": "Filet de Bar Bio sur peau",
+"expiration_date": "20/06/2018",
+"nova_groups_tags": [
+"en:1-unprocessed-or-minimally-processed-foods"
+],
+"brands_debug_tags": [ ],
+"image_small_url": "https://static.openfoodfacts.org/images/products/220544/front_fr.3.200.jpg",
+"ingredients_original_tags": [
+"fr:Dicentrarchus labrax",
+"en:fish"
+],
+"last_image_dates_tags": [
+"2018-06-25",
+"2018-06",
+"2018"
+],
+"lang": "fr",
+"categories_debug_tags": [ ],
+"product_quantity": 150,
+"nutrient_levels_tags": [
+"en:fat-in-low-quantity",
+"en:saturated-fat-in-low-quantity",
+"en:sugars-in-low-quantity",
+"en:salt-in-low-quantity"
+],
+"completed_t": 1530131718,
+"link": "",
+"emb_codes": "FR 56.121.132 EC",
+"update_key": "additives20180816d",
+"categories_prev_tags": [
+"en:seafood",
+"en:fishes",
+"en:fish-fillets",
+"en:bass",
+"fr:poisson-d-elevage",
+"fr:poissons-d-elevage",
+"fr:poissons-frais"
+],
+"categories_tags": [
+"en:seafood",
+"en:fishes",
+"en:fish-fillets",
+"en:bass",
+"fr:poisson-d-elevage",
+"fr:poissons-d-elevage",
+"fr:poissons-frais"
+],
+"additives_prev_tags": [ ],
+"code": "220544",
+"purchase_places_debug_tags": [ ]
+}
+],
+"page_size": 20,
+"count": 2,
+"skip": 0
+}
