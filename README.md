@@ -33,8 +33,10 @@ Script de traitement développer en *PYTHON*
 
 1. Créez un modèle graphique de la BD
 2. A partir de ce modèle créez les tables SQL
-3. Insérer les données des fichiers JSON dans la BD
-4. Dans un terminal choisissez la catégorie de produit 
-5. Affichage des produits a substituer selon leur indice de classement
-6. Affichage de la fiche du produit substituer avec *l'URL de l'API OPENFOODFACT*
-7. Enregistrement du choix sur le produit a substituer ainsi que le produit substituer
+3. Importez les données catégories produits dans un fichier au format JSON
+4. Importez les produits de chaque catégorie dans un fichier au format JSON
+5. Insérer les données des fichiers JSON dans la BD
+6. Dans un terminal choisissez la catégorie de produit
+7. Affichage des produits a substituer selon leur indice de classement
+8. Affichage de la fiche du produit substituer avec *l'URL de l'API OPENFOODFACT*
+9. Enregistrement du choix sur le produit a substituer ainsi que le produit substituer
