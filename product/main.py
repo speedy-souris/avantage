@@ -1,11 +1,11 @@
-# -*- coding: utf-8 -*-
+# -*- coding:utf-8 -*-
 
-import mysql.connector
+#import mysql.connector
 from category import *
 
-conn = mysql.connector.connect(host="localhost",user="student",password="OpenClassRooms", database="product")
-cursor = conn.cursor()
-conn.close()
+#conn = mysql.connector.connect(host="localhost",user="student",password="OpenClassRooms", database="product")
+#cursor = conn.cursor()
+#conn.close()
 
 print('')
 print ('le programme de Substitution de prouit est lancé ! ')
@@ -13,31 +13,37 @@ print('')
 #
 #  Product selection menu
 #
-print('1.Boissons énégétiques')
-print('2.Bonbons')
-print('3.Charcuteries')
-print('4.Chocolats')
-print('5.Conserves')
-print('6.Fromages')
-print('7.Fruits')
-print('8.Fruits confits')
-print('9.Gateaux')
-print('10.Glaces')
-print('11.Jus de fruits')
-print('12.Laits')
-print('13.Pâtes de fruit')
-print('14.Pâtes')
-print('15.Pâtes à tartiner')
-print('16.Pizzas')
-print('17.Poissons')
-print('18.Poissons d\'élevages')
-print('19.Réglisse')
-print('20.Riz')
-print('21.Sorbets')
-print('22.Viandes')
-print('23.Vins')
-print('24.Yaourts')
+choix =[['Boissons_energetiques','boissons_energie.json'],['Bonbons','bonbons.json'],
+		['Charcuteries','charcuteries.json'],['Chocolats','chocolats.json'],
+	    ['Conserves','conserves.json'],['Fromages','fromages.json'],
+	    ['Fruits','fruits.json'],['Fruits_confits','fruits_confits.json'],
+	    ['Gateaux','gateaux.json'],['Glaces','glaces.json'],['Jus_de_fruits','jus_fruits.json'],
+	    ['Laits','laits.json'],['Pates_de_fruit','pate_fruits.json'],
+	    ['Pates','pates.json'],['Pates_a_tartiner','pates_tartiner.json'],
+	    ['Pizzas','pizzas.json'],['Poissons','poissons.json'],
+	    ['Poissons_elevages','poissons_elevage.json'],['Reglisse','reglisses.json'],
+	    ['Riz','riz.json'],['Sorbets','sorbets.json'],['Viandes','viandes.json'],
+	    ['Vins','vins.json'],['Yaourts','yaourts.json']
+]
+for i, elt in enumerate(choix):
+	print("{}. {}".format(i+1, elt[0]))
+
+while True:
+    category = input('choississez une catégory de produit par son numéro : ')
+    try:
+        category = int(category)
+    except ValueError:
+        print("Vous devez choisir un nombre")
+    else:
+        if not 0 < category < 25:
+            print("La catégorie doit être entre 1 et 24")
+        else:
+            break 
+		
 print('')
-category = input('choississez une catégory de produit par son numéro : ')
+print('vous avez choisi la categorie :', category) 
+
+
+
 
 
