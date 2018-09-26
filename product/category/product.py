@@ -3,17 +3,24 @@
 import json
 import mysql.connector
 
-database= mysql.connector.connect(host="localhost",
-							   user="student",
-							   password="OpenClassRooms",
-							   database="food_product"
-)
-cursor = database.cursor()
-
-
 """module containing the product characteristics of JSON (API OPENFOODFACT)"""
 
 def insert_product(category, nb_product):
+	
+	#
+	# opening database
+	#
+
+	database= mysql.connector.connect(host="localhost",
+									  user="student",
+									  password="OpenClassRooms",
+									  database="food_product"
+	)
+	cursor = database.cursor()
+	
+	#
+	# filling database
+	#
 	
 	with open(category) as json_category:
 		category_dict = json.load(json_category)
@@ -39,5 +46,11 @@ def insert_product(category, nb_product):
 		cursor.execute(sql, val)
 		database.commit()
 			
-	except IndexError:
+	except IndexError: # List ==> OUT OF RANGE 
 		pass
+	
+	#
+	# closing database
+	#
+	
+	database.close()
