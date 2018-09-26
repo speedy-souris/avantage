@@ -1,14 +1,9 @@
 # -*- coding:utf-8 -*-
 
-#import mysql.connector
-from category import *
-
-#conn = mysql.connector.connect(host="localhost",user="student",password="OpenClassRooms", database="product")
-#cursor = conn.cursor()
-#conn.close()
+from category.product import *
 
 print('')
-print ('le programme de Substitution de prouit est lancé ! ')
+print ('le programme de Substitution de produit est lancé ! ')
 print('')
 #
 #  Product selection menu
@@ -25,8 +20,10 @@ choix =[['Boissons_energetiques','boissons_energie.json'],['Bonbons','bonbons.js
 	    ['Riz','riz.json'],['Sorbets','sorbets.json'],['Viandes','viandes.json'],
 	    ['Vins','vins.json'],['Yaourts','yaourts.json']
 ]
+
 for i, elt in enumerate(choix):
 	print("{}. {}".format(i+1, elt[0]))
+	insert_product('category/' + choix[i][1],i)
 
 while True:
     category = input('choississez une catégory de produit par son numéro : ')
@@ -39,9 +36,6 @@ while True:
             print("La catégorie doit être entre 1 et 24")
         else:
             break 
-		
-print('')
-print('vous avez choisi la categorie :', category) 
 
 
 
