@@ -1,13 +1,27 @@
 # -*- coding:utf-8 -*-
 
+import mysql.connector
 from category.product import *
 
 print('')
 print ('le programme de Substitution de produit est lancé ! ')
 print('')
-#
-#  Product selection menu
-#
+
+#--------------------
+#| Opening DataBase |
+#--------------------
+
+database= mysql.connector.connect(host="localhost",
+								  user="student",
+								  password="OpenClassRooms",
+								  database="food_product"
+)
+cursor = database.cursor()
+
+#----------------------------
+#|  Product selection menu  |
+#----------------------------
+
 choix =[['Boissons_energetiques','boissons_energie.json'],['Bonbons','bonbons.json'],
 		['Charcuteries','charcuteries.json'],['Chocolats','chocolats.json'],
 	    ['Conserves','conserves.json'],['Fromages','fromages.json'],
@@ -20,15 +34,19 @@ choix =[['Boissons_energetiques','boissons_energie.json'],['Bonbons','bonbons.js
 	    ['Riz','riz.json'],['Sorbets','sorbets.json'],['Viandes','viandes.json'],
 	    ['Vins','vins.json'],['Yaourts','yaourts.json']
 ]
-
+name = ''
 for i, elt in enumerate(choix):
+	
 	print("{}. {}".format(i+1, elt[0]))
-	insert_product('category/' + choix[i][1],i)
-
+	contained_database('category/' + choix[i][1], choix[i][0])
+		
 while True:
+    
     category = input('choississez une catégory de produit par son numéro : ')
+    
     try:
         category = int(category)
+        
     except ValueError:
         print("Vous devez choisir un nombre")
     else:
@@ -37,7 +55,14 @@ while True:
         else:
             break 
 
+name = choix[category-1][0]
+print(name)
 
+# read_product(name)
 
+#--------------------
+#| closing database |
+#--------------------
 
+database.close()
 
