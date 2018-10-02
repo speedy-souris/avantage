@@ -1,19 +1,32 @@
 # -*- coding: utf-8 -*-
 
 import json
+import mysql.connector
+
 
 """module containing the product characteristics of JSON (API OPENFOODFACT)"""
 
 
 def contained_database(data, name_category, nb_product):
 
+    # --------------------
+    # | Opening DataBase |
+    # --------------------
+
+    database = mysql.connector.connect(
+            host="localhost",
+            user="student",
+            password="OpenClassRooms",
+            database="food_product"
+    )
+
+    cursor = database.cursor()
+
     #
     # read data from the json file
     #
-    print(data, name_category, nb_product)
-    print()
+
     designation = ''
-    grade = ''
     with open(data) as json_category:
         category_dict = json.load(json_category)
 
@@ -28,58 +41,38 @@ def contained_database(data, name_category, nb_product):
                 designation = category_dict['products'][nb_product][
                     'generic_name']
 
-            if "nutrition_grades" in category_dict['products'][
-                    nb_product].keys():
-                grade = category_dict['products'][nb_product][
-                    'nutrition_grades']
-            else: 
-                grade = category_dict['products'][nb_product][
-                    'nutrition_grades_fr']
-
-            # block containing the test of the json data
-            # and the insertion of the data into the database
+            """ block containing the test of the json data
+                and the insertion of the data into the database"""
 
             #
-            # product data
-            #
-
-            val_product = (
-                category_dict['products'][nb_product]['url'],
-                grade,
-                designation,
-                category_dict['products'][nb_product]['product_name'],
-                category_dict['product'][nb_product]['stores']
-            )
-
-            #
-            # database filling
+            # product data and database filling
             #
 
             cursor.execute(
                 """INSERT INTO product(
-                            url,
-                            nutrition_grade,
-                            description,
-                            name,
-                            store
-            ) VALUES (%s, %s, %s, %s, %s)""", val_product)
-            database.commit()
-
-            #
-            # category data
-            #
-            val_category = (name_category,)
-
-            #
-            # database filling
-            #
-
-            cursor.execute(
-                """INSERT INTO category(category)
-                                VALUES(%s)""", val_category
+                                    url,
+                                    nutrition_grade,
+                                    description,
+                                    name,
+                                    store) VALUES (%s, %s, %s, %s, %s)""",
+                (
+                    category_dict['products'][nb_product]['url'],
+                    category_dict['products'][nb_product][
+                            'nutrition_grades_fr'],
+                    designation,
+                    category_dict['products'][nb_product]['product_name'],
+                    category_dict['product'][nb_product]['stores'])
             )
-            database.commit()
+            database.commit() # data inserted
+            #
+            # category data and database filling
+            #
+            cursor.execute("""INSERT INTO category(category) VALUES(%s)""",
+                (name_category)
 
+            database.commit() # data inserted
+            database.close()  # closing database
+        
         except IndexError:
             pass
         except KeyError:

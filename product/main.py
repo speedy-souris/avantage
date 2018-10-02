@@ -1,24 +1,10 @@
 # -*- coding:utf-8 -*-
 
-import mysql.connector
 from category.product import *
 
 print('')
 print('le programme de Substitution de produit est lancé ! ')
 print('')
-
-# --------------------
-# | Opening DataBase |
-# --------------------
-
-database = mysql.connector.connect(
-        host="localhost",
-        user="student",
-        password="OpenClassRooms",
-        database="food_product"
-)
-
-cursor = database.cursor()
 
 # ----------------------------
 # |  Product selection menu  |
@@ -43,8 +29,9 @@ choix = [
 name = ''
 for i, elt in enumerate(choix):
 
-    print("{}. {}".format(i+1, elt[0]))
     contained_database('category/' + choix[i][1], choix[i][0], i)
+    print("{}. {}".format(i+1, elt[0]))
+
 
 while True:
 
@@ -63,9 +50,3 @@ while True:
 
 name = choix[category-1][0]
 print(name)
-
-# ----------------------
-# |  closing database  |
-# ----------------------
-
-database.close()
