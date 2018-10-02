@@ -2,54 +2,83 @@
 
 import json
 
-
 """module containing the product characteristics of JSON (API OPENFOODFACT)"""
 
 
-def contained_database(data, category):
+def contained_database(data, name_category, nb_product):
 
     #
     # read data from the json file
     #
+    print(data, name_category, nb_product)
+    print()
+    designation = ''
+    grade = ''
     with open(data) as json_category:
         category_dict = json.load(json_category)
 
-    name = ''
-    grade = ''
-    nb_product = 1
     while nb_product <= category_dict['page_size']:
-        try:
-            if "generic_name_fr" in category_dict['products']\
-                                    [nb_product].keys():
-                name = category_dict['products'][nb_product]
-                ['generic_name_fr']
-            elif "generic_name" in category_dict['products'][nb_product].keys():
-                name = category_dict['products'][nb_product]['generic_name']
 
-            if "nutrition_grades" in category_dict['products'][nb_product].keys():
-                grade = category_dict['products'][nb_product]['nutrition_grades']
-            elif "nutrition_grades_fr" in category_dict['products'][nb_product].keys():
-                grade = category_dict['products'][nb_product]['nutrition_grades_fr']
+        try:
+            if "generic_name_fr" in category_dict['products'][
+                    nb_product].keys():
+                designation = category_dict['products'][nb_product][
+                    'generic_name_fr']
+            else:
+                designation = category_dict['products'][nb_product][
+                    'generic_name']
+
+            if "nutrition_grades" in category_dict['products'][
+                    nb_product].keys():
+                grade = category_dict['products'][nb_product][
+                    'nutrition_grades']
+            else: 
+                grade = category_dict['products'][nb_product][
+                    'nutrition_grades_fr']
+
+            # block containing the test of the json data
+            # and the insertion of the data into the database
 
             #
             # product data
             #
 
             val_product = (
-                category_dict['products'][nb_product]['product_name'],
                 category_dict['products'][nb_product]['url'],
-                category_dict['product'][nb_product]['stores'],
-                name,
-                grade
+                grade,
+                designation,
+                category_dict['products'][nb_product]['product_name'],
+                category_dict['product'][nb_product]['stores']
             )
-            contained_product(val_product)  # insert product data
+
+            #
+            # database filling
+            #
+
+            cursor.execute(
+                """INSERT INTO product(
+                            url,
+                            nutrition_grade,
+                            description,
+                            name,
+                            store
+            ) VALUES (%s, %s, %s, %s, %s)""", val_product)
+            database.commit()
 
             #
             # category data
             #
-            val_category = (category,)
+            val_category = (name_category,)
 
-            contained_category(val_category)  # insert category data
+            #
+            # database filling
+            #
+
+            cursor.execute(
+                """INSERT INTO category(category)
+                                VALUES(%s)""", val_category
+            )
+            database.commit()
 
         except IndexError:
             pass
@@ -57,61 +86,3 @@ def contained_database(data, category):
             pass
 
         nb_product += 1
-
-
-"""module containing the insertion of product data"""
-
-
-def insert_product(data):
-
-    #
-    # database filling
-    #
-    cursor.execute(
-        """INSERT INTO product(url, nutrition_grade, description, name, store) VALUES (%s, %s, %s, %s, %s)""", data)
-
-    database.commit()
-
-
-"""module containing the insertion of product category"""
-
-
-def insert_category(data):
-
-    #
-    # database filling
-    #
-    cursor.execute("""INSERT INTO category(category) VALUES(%s)""", data)
-
-    database.commit()
-
-
-"""test module and product insertion"""
-
-
-def contained_product(data):
-
-    cursor.execute("""SELECT * FROM product """)
-    if not cursor.fetchall():
-        insert_product(data)
-    else:
-        pass
-
-    insert_product(data)
-
-
-"""test module and category insertion"""
-
-
-def contained_category(data):
-
-    cursor.execute("""SELECT * FROM category """)
-    rows = cursor.fetchall()
-    if not rows:
-        insert_category(data)
-    else:
-        for row in rows:
-            if row != category:
-                insert_category(data)
-            else:
-                pass

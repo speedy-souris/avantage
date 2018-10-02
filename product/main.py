@@ -12,10 +12,10 @@ print('')
 # --------------------
 
 database = mysql.connector.connect(
-    host="localhost",
-    user="student",
-    password="OpenClassRooms",
-    database="food_product"
+        host="localhost",
+        user="student",
+        password="OpenClassRooms",
+        database="food_product"
 )
 
 cursor = database.cursor()
@@ -44,7 +44,7 @@ name = ''
 for i, elt in enumerate(choix):
 
     print("{}. {}".format(i+1, elt[0]))
-    contained_database('category/' + choix[i][1], choix[i][0])
+    contained_database('category/' + choix[i][1], choix[i][0], i)
 
 while True:
 
@@ -64,10 +64,8 @@ while True:
 name = choix[category-1][0]
 print(name)
 
-# read_product(name)
-
-# --------------------
-# | closing database |
-# --------------------
+# ----------------------
+# |  closing database  |
+# ----------------------
 
 database.close()
