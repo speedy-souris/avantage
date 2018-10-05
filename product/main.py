@@ -6,6 +6,8 @@ print('')
 print('le programme de Substitution de produit est lancé ! ')
 print('')
 
+erase_data()  # cleaning database
+
 # ----------------------------
 # |  Product selection menu  |
 # ----------------------------
@@ -32,7 +34,6 @@ for i, elt in enumerate(choix):
     contained_database('category/' + choix[i][1], choix[i][0], i)
     print("{}. {}".format(i+1, elt[0]))
 
-
 while True:
 
     category = input('choississez une catégory de produit par son numéro : ')
@@ -49,4 +50,4 @@ while True:
             break
 
 name = choix[category-1][0]
-print(name)
+# ~ print(name)
