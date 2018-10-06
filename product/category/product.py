@@ -14,10 +14,10 @@ def contained_database(data, name_category, nb_product):
     # --------------------
 
     database = mysql.connector.connect(
-            host="localhost",
-            user="student",
-            password="OpenClassRooms",
-            database="food_product"
+        host="localhost",
+        user="student",
+        password="OpenClassRooms",
+        database="food_product"
     )
 
     cursor = database.cursor()
@@ -37,11 +37,12 @@ def contained_database(data, name_category, nb_product):
             # product data and database filling
             #
 
-            sql_p = "INSERT INTO product(\
-                            url, nutrition_grade,\
-                            description,\
-                            name,\
-                            store) VALUES (%s, %s, %s, %s, %s)"
+            sql_p = """INSERT INTO product(
+                url, nutrition_grade,
+                description,
+                name,
+                store) VALUES (%s, %s, %s, %s, %s)
+            """
 
             val_p = (
                 category_dict['products'][nb_product]['url'],
@@ -57,16 +58,14 @@ def contained_database(data, name_category, nb_product):
             # category data and database filling
             #
 
-            sql_c = "INSERT INTO category(category) VALUES (%s)"
+            sql_c = """INSERT INTO category(
+                category) VALUES (
+                %s) ON DUPLICATE KEY UPDATE category = VALUES(%s)
+            """
 
             val_c = (name_category,)
 
-            cursor.execute("SELECT * FROM category")
-
-            if cursor.fetchall() != name_category:
-                cursor.execute(sql_c, val_c)
-            else:
-                pass
+            cursor.execute(sql_c, val_c)
 
             database.commit()  # data inserted
 
@@ -74,10 +73,8 @@ def contained_database(data, name_category, nb_product):
             pass
         except KeyError:
             pass
-        except mysql.connector.errors.InterfaceError:
-            cursor.execute(sql_c, val_c)
 
-        nb_product += 1
+            nb_product += 1
 
     database.close()  # closing database
 
@@ -88,10 +85,10 @@ def erase_data():
     # --------------------
 
     database = mysql.connector.connect(
-            host="localhost",
-            user="student",
-            password="OpenClassRooms",
-            database="food_product"
+        host="localhost",
+        user="student",
+        password="OpenClassRooms",
+        database="food_product"
     )
 
     cursor = database.cursor()

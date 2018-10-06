@@ -50,4 +50,4 @@ while True:
             break
 
 name = choix[category-1][0]
-# ~ print(name)
+print(name)
