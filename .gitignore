@@ -7,6 +7,7 @@ product.mwb.bak
 product/category/__init__.*
 product/category/__pycache__/
 product/category/*.json
-*.pyc
+product/category/*.pyc
+product/*.pyc
 test.py
 
