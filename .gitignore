@@ -1,13 +1,16 @@
 env/
 Planning.ods
 .~lock.*
+test.py
 JSON/
 product.mwb
 product.mwb.bak
-product/category/__init__.*
-product/category/__pycache__/
-product/category/*.json
-product/category/*.pyc
-product/*.pyc
-test.py
+product/__pycache__/
+product/function/__init__.*
+product/function/__pycache__/
+product/json/
+product/process/__init__.*
+product/process/__pycache__/
+./gitignore
+
 
