@@ -2,7 +2,7 @@
 
 import json
 import mysql.connector
- 
+
 
 """module containing the product characteristics of JSON (API OPENFOODFACT)"""
 
@@ -16,7 +16,7 @@ def contained_database(data, name_category, nb_product):
     database = mysql.connector.connect(
         host="localhost",
         user="student",
-        password="OpenClassRooms", 
+        password="OpenClassRooms",
         database="food_product"
     )
 
@@ -30,7 +30,10 @@ def contained_database(data, name_category, nb_product):
     val_c = (name_category,)
 
     cursor.execute(sql_c, val_c)
+
     database.commit()  # category inserted
+
+    last_cat = cursor.lastrowid # get the last id category from insertion
 
     #
     # read data from the json file
@@ -53,7 +56,7 @@ def contained_database(data, name_category, nb_product):
                 nutrition_grade,
                 description,
                 name,
-                store) 
+                store)
                     VALUES (%s, %s, %s, %s, %s)"""
 
             val_p = (
@@ -63,9 +66,31 @@ def contained_database(data, name_category, nb_product):
                 category_dict['products'][nb_product]['product_name'],
                 category_dict['products'][nb_product]['stores']
             )
+            
+            cursor.execute(sql_p, val_p)
 
-            cursor.execute (sql_p, val_p)
             database.commit()  # data inserted
+
+            last_prod = cursor.lastrowid # get the last id product from insertion
+
+            #
+            # filling of the link TABLE category_product
+            #
+
+            cat_prod = [last_cat, last_prod]
+            sql_cp = """INSERT INTO category_product(
+                category_id,
+                product_id)
+                    VALUES(%s, %s)"""
+
+            val_cp = (
+                cat_prod[0],
+                cat_prod[1]
+            )
+
+            cursor.execute(sql_cp, val_cp)
+
+            database.commit() #id categeory and id product copied
 
         except IndexError:
             pass
@@ -75,6 +100,7 @@ def contained_database(data, name_category, nb_product):
         nb_product += 1
 
     database.close()  # closing database
+    
 
 
 """module containing the erasure of the data"""
@@ -103,6 +129,7 @@ def erase_data():
     cursor.execute("ALTER TABLE product AUTO_INCREMENT = 1")
     cursor.execute("DELETE FROM category")
     cursor.execute("ALTER TABLE category AUTO_INCREMENT = 1")
+    cursor.execute("DELETE FROM category_product")
 
     database.commit()  # data erased
 

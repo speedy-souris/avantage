@@ -11,6 +11,6 @@ product/function/__pycache__/
 product/json/
 product/process/__init__.*
 product/process/__pycache__/
-.gitignore
+
 
 
