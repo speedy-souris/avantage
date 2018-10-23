@@ -1,10 +1,15 @@
-# -*- coding: utf-8 -*-
+#! /usr/bin/env python3
+# -*- coding:utf-8 -*-
 
-from function import insertion as insert
+import insertion as insert
 
-def menu_category():
 
-    insert.erase_data()  # cleaning database
+"""module containing the category menu"""
+
+
+def menu_category(connect):
+
+    insert.erase_data(connect)  # cleaning database
 
     # ----------------------------
     # |  Product selection menu  |
@@ -28,9 +33,29 @@ def menu_category():
     ]
 
     for i, elt in enumerate(choix):
-        insert.contained_database('json/' + choix[i][1], choix[i][0], i)
+        insert.contained_database('json/' + choix[i][1], choix[i][0], i, connect)
         print("{}. {}".format(i+1, elt[0]))
 
+    name = ''
+    while True:
+        print()
+        category = input('choississez une catégory de produit par son numéro : ')
+        try:
+            category = int(category)
+
+        except ValueError:
+            print("Vous devez choisir un nombre")
+        else:
+            if not 0 < category < 25:
+                print("La catégorie doit être entre 1 et 24")
+            else:
+                break
+
+    name = choix[category-1][0]
+    print()
+    print("Vous avez choisi la catégorie ", name)
+
+    return name
 
 if __name__ == '__main__':
 
