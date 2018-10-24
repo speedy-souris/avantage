@@ -1,22 +1,63 @@
 #! /usr/bin/env python3
 # -*- coding:utf-8 -*-
 
-import menu_category as m_cat
-import menu_product as m_prod
+#  importation module
+import mysql.connector
 
-from connect import DBConnect 
+from prod_processing import menu_category as m_cat
 
-print('')
-print('le programme de Substitution de produit est lancé ! ')
-print('')
+# definition of the DBConnect class
+class DBConnect:
 
-student = DBConnect("localhost", "student", "OpenClassRooms", "food_product")
+    """the DBConnect class is characterized by:
+    - his host
+    - his user
+    - his password
+    - his database"""
 
-m_cat.menu_category(student)  # display menu category
-name = m_cat.menu_category(student)
+    #  DBConnect class constructor method
+    def __init__(self, host, user, password, database):
 
-print(name)
-m_prod.menu_product(name, student)  # display menu product
+        """definition of attributes:
+        - host
+        - user
+        - password
+        - database"""
 
-student.database.close()  # closing database
+        print("Création de connection à la base de donnée...")
+        self.host = host
+        self.user = user
+        self.password = password
+        self.database = database
 
+    # initialization method at the connection of the database
+    def db_connect(self):
+
+        """method for connection by the student to the database:
+        << food_product >>"""
+
+        print("ouverture de la base de donnée...")
+        self.db_con = mysql.connector.connect(
+            host = self.host,
+            user = self.user,
+            password = self.password,
+            database = self.database
+        )
+
+        return self.db_con
+
+def main():
+    print()
+    print('le programme de Substitution de produit est lancé ! ')
+    print()
+
+    student = DBConnect("localhost", "student", "OpenClassRooms", "food_product")
+    db = student.db_connect()
+
+    m_cat(db)  # display menu category
+
+    db.close()  # closing database
+
+
+if __name__ == "__main__":
+    main()

@@ -1,15 +1,23 @@
 #! /usr/bin/env python3
 # -*- coding:utf-8 -*-
 
-import insertion as insert
+from db_processing import erase_data as erase
+from db_processing import contained_database as insert
 
+from db_processing import cat_select as s_prod
 
-"""module containing the category menu"""
-
+                # ---------------------------
+                #|                           |
+                #|            MENU           |
+                #|     CATEGORY  DISPLAY     |
+                #|                           |
+                # ---------------------------
 
 def menu_category(connect):
 
-    insert.erase_data(connect)  # cleaning database
+    """module containing the category menu"""
+
+    erase(connect)  # cleaning database
 
     # ----------------------------
     # |  Product selection menu  |
@@ -33,7 +41,7 @@ def menu_category(connect):
     ]
 
     for i, elt in enumerate(choix):
-        insert.contained_database('json/' + choix[i][1], choix[i][0], i, connect)
+        insert('json/' + choix[i][1], choix[i][0], i, connect)
         print("{}. {}".format(i+1, elt[0]))
 
     name = ''
@@ -55,7 +63,26 @@ def menu_category(connect):
     print()
     print("Vous avez choisi la catégorie ", name)
 
-    return name
+    menu_product(name, connect)
+
+                # ---------------------------
+                #|                           |
+                #|            MENU           |
+                #|     CATEGORY  DISPLAY     |
+                #|                           |
+                # ---------------------------
+
+def menu_product(name, connect):
+
+    """link module containing the TABLE category id
+    and the TABLE product id"""
+
+    print()
+    print('menu produit de la categorie ', name)
+    print()
+
+    s_prod(name, connect)
+
 
 if __name__ == '__main__':
 
