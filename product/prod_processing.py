@@ -42,7 +42,7 @@ def menu_category(connect):
 
     for i, elt in enumerate(choix):
         insert('json/' + choix[i][1], choix[i][0], i, connect)
-        print("{}. {}".format(i+1, elt[0]))
+        print(f"{i+1}. {elt[0]}")
 
     name = ''
     while True:
@@ -84,8 +84,5 @@ def menu_product(name, connect):
     s_prod(name, connect)
 
 
-if __name__ == '__main__':
-
-    insert.erase_data()
-    insert.contained_database('fruits.json', 'Cat', 4)
+# ~ if __name__ == '__main__':
 

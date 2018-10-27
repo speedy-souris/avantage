@@ -140,11 +140,37 @@ def cat_select(cat_name, connect):
         "cat_name": cat_name
     })
 
+    nb_product = 0
+    name = []
     for i, product_name in enumerate(cursor):
-        print(f"{i+1}. {product_name}")
+        print(f"{i+1}. {product_name[0]}")
+        nb_product = i + 1
+        name.append(product_name[0])
+    cursor.close()
+
+    while True:
+        print()
+        product = input('choississez un produit par son numéro : ')
+        try:
+            product = int(product)
+
+        except ValueError:
+            print("Vous devez choisir un nombre")
+        else:
+            if not 0 < product< nb_product:
+                print("Le produit doit être entre 1 et ", nb_product)
+            else:
+                break
+
+    pro_selected = ''
+    print()
+    for key, value in enumerate(name):
+        if key == product-1:
+            print(f"Vous avez choisi le produit : {value}")
+            pro_selected = value
+    print()
+
+    return pro_selected
 
 
-if __name__ == '__main__':
-
-    erase_data()
-    contained_database('../chocolats.json', 'Cat', 8)
+# ~ if __name__ == '__main__':

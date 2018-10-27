@@ -24,7 +24,6 @@ class DBConnect:
         - password
         - database"""
 
-        print("Création de connection à la base de donnée...")
         self.host = host
         self.user = user
         self.password = password
@@ -36,7 +35,8 @@ class DBConnect:
         """method for connection by the student to the database:
         << food_product >>"""
 
-        print("ouverture de la base de donnée...")
+        print("mise a jour de la base de donnée...")
+        print()
         self.db_con = mysql.connector.connect(
             host = self.host,
             user = self.user,
