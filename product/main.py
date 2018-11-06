@@ -25,15 +25,7 @@ class DBConnect:
 
         """
         constructor of the DBConnect class
-        def __init __ (self, host, user, password, database)
-
-        definition of attributes:
-            - self.host = host
-            - self.user = user
-            - self.password = password
-            - self.database = database
-
-        with the parameters:
+        Args:
             - host (BD server address)
             - user (username)
             - password (user password)
@@ -101,7 +93,10 @@ def main():
 if __name__ == "__main__":
     main()
     choix = ""
-    print()
-    choix = input("Voulez vous continuez Oui ou Non ? : ")
-    if choix == "o":
-        main()
+    while choix != 'o' or choix != 'n':
+        print()
+        choix = input("Voulez vous continuez Oui ou Non ? : ")
+        if choix == "o":
+            main()
+        elif choix == "n":
+            break

@@ -50,35 +50,58 @@ def menu_category(db_connect):
         ["Yaourts", "yaourts.json"]
     ]
 
-    print("Menu de Catégorie Produit (OpenFoodFact)")
-    print("==== == ========= =======")
-    print()
-    cat_name = []
+    #  ----------------------------------
+    # |  update of data in the database  |
+    #  ----------------------------------
     for i, elt in enumerate(choix):
         insert_data("json/" + choix[i][1], choix[i][0], i, db_connect)
-        print(f"{i+1}. {elt[0]}")
 
-    cat_id = 0
+    print("1. Voir produit enregistrer")
+    print("2. Afficher le menu category")
+    starting = 0
     while True:
         print()
-        category = input(
-            "choississez une catégory de produit par son numéro : "
-        )
+        starting = input("Faite votre choix : ")
         try:
-            cat_id = int(category)
+            starting = int(starting)
         except ValueError:
             print("Vous devez choisir un nombre")
         else:
-            if not 0 < cat_id < 25:
-                print("La catégorie doit être entre 1 et 24")
+            if not 0 < starting < 3:
+                print("La catégorie doit être entre 1 et 2")
             else:
-                break
+                break    
 
-    cat_name = [choix[cat_id-1][0], cat_id]
-    print()
-    print("Vous avez choisi la catégorie ", cat_name[0])
+    if starting == 2:
+        print()
+        print("Menu de Catégorie Produit (OpenFoodFact)")
+        print("==== == ========= =======")
+        print()
+        cat_name = []
+        for i, elt in enumerate(choix):
+            print(f"{i+1}. {elt[0]}")
 
-    return cat_name
+        cat_id = 0
+        while True:
+            print()
+            category = input(
+                "choississez une catégory de produit par son numéro : "
+            )
+            try:
+                cat_id = int(category)
+            except ValueError:
+                print("Vous devez choisir un nombre")
+            else:
+                if not 0 < cat_id < 25:
+                    print("La catégorie doit être entre 1 et 24")
+                else:
+                    break
+
+        cat_name = [choix[cat_id-1][0], cat_id]
+        print()
+        print("Vous avez choisi la catégorie ", cat_name[0])
+
+        return cat_name
 
 
 #  ---------------------------

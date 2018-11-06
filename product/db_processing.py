@@ -12,7 +12,7 @@ import json
 #  ---------------------------
 def contained_database(data, name_cat, nb_product, connect_db):
 
-    """module containing the product characteristics of JSON
+    """module containing the product characteristics of 
     (API OPENFOODFACT)"""
 
     db = connect_db
@@ -88,18 +88,7 @@ def contained_database(data, name_cat, nb_product, connect_db):
                 cat_prod[1]
             )
 
-            sql_sub = """INSERT INTO substitution_product(
-                product_id,
-                product_id1)
-                    VALUES(%s, %s)"""
-
-            val_sub = (
-                cat_prod[1],
-                cat_prod[1]
-            )
-
             cursor.execute(sql_cp, val_cp)
-            cursor .execute(sql_sub, val_sub)
 
             # id categeory and id product copied
             db.commit()
@@ -110,6 +99,8 @@ def contained_database(data, name_cat, nb_product, connect_db):
             pass
 
         nb_product += 1
+
+    cursor.close()
 
 
 def erase_data(db_connect):
