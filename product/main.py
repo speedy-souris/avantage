@@ -92,11 +92,11 @@ def main():
 
 if __name__ == "__main__":
     main()
-    choix = ""
-    while choix != 'o' or choix != 'n':
+    selection = ""
+    while selection != 'o' or selection != 'n':
         print()
-        choix = input("Voulez vous continuez Oui ou Non ? : ")
-        if choix == "o":
+        selection = input("Voulez vous continuez ? (Oui/Non) : ")
+        if selection == "o":
             main()
-        elif choix == "n":
+        elif selection == "n":
             break

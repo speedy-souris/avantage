@@ -23,7 +23,7 @@ def menu_category(db_connect):
     #  --------------------------
     # |  Product selection menu  |
     #  --------------------------
-    choix = [
+    selection = [
         ["Boissons_energetiques", "boissons_energie.json"],
         ["Bonbons", "bonbons.json"],
         ["Charcuteries", "charcuteries.json"],
@@ -53,42 +53,43 @@ def menu_category(db_connect):
     #  ----------------------------------
     # |  update of data in the database  |
     #  ----------------------------------
-    for i, elt in enumerate(choix):
-        insert_data("json/" + choix[i][1], choix[i][0], i, db_connect)
+    for i, elt in enumerate(selection):
+        insert_data("json/" + selection[i][1], selection[i][0], i, db_connect)
 
-    print("1. Voir produit enregistrer")
-    print("2. Afficher le menu category")
-    starting = 0
+    print("1. Afficher le menu category")
+    print("2. Voir produit enregistrer")
+
+    starting = ""
     while True:
         print()
         starting = input("Faite votre choix : ")
+
         try:
             starting = int(starting)
         except ValueError:
             print("Vous devez choisir un nombre")
         else:
-            if not 0 < starting < 3:
+            if not 0 < starting < 2:
                 print("La catégorie doit être entre 1 et 2")
             else:
-                break    
+                break
 
-    if starting == 2:
-        print()
+    if starting == 1:
         print("Menu de Catégorie Produit (OpenFoodFact)")
         print("==== == ========= =======")
         print()
         cat_name = []
-        for i, elt in enumerate(choix):
+        for i, elt in enumerate(selection):
             print(f"{i+1}. {elt[0]}")
-
-        cat_id = 0
+        cat_id = ""
         while True:
             print()
-            category = input(
+            cat_id = input(
                 "choississez une catégory de produit par son numéro : "
             )
+ 
             try:
-                cat_id = int(category)
+                cat_id = int(cat_id)
             except ValueError:
                 print("Vous devez choisir un nombre")
             else:
@@ -97,11 +98,13 @@ def menu_category(db_connect):
                 else:
                     break
 
-        cat_name = [choix[cat_id-1][0], cat_id]
-        print()
-        print("Vous avez choisi la catégorie ", cat_name[0])
+        cat_name = [selection[cat_id-1][0], cat_id]
+        print("Vous avez choisi la catégorie ", cat_name[0].upper())
 
         return cat_name
+
+    elif starting == 2:
+        read_substitute(db_connect)
 
 
 #  ---------------------------
@@ -117,10 +120,10 @@ def prod_select(cat_name, cat_id, db_connect):
     cursor = db.cursor()
 
     print()
-    print("menu produit de la categorie ")
-    print("==== ======= == == ========= ")
+    print("menu produit de la categorie :", cat_name.upper())
+    print("==== ======= == == =========")
     print()
-    sql = """SELECT p.name as nom_produit, 
+    sql = """SELECT p.name as nom_produit,
         p.description as description_produit,
         p.nutrition_grade as grade_nutritionnel,
         p.url as url_produit,
@@ -133,9 +136,10 @@ def prod_select(cat_name, cat_id, db_connect):
         WHERE
             c.category = %(cat_name)s"""
 
-    cursor.execute(sql, {
-        "cat_name": cat_name
-    })
+    cursor.execute(
+        sql,
+        {"cat_name": cat_name}
+    )
 
     nb_product = 0
     product_list = []
@@ -145,13 +149,13 @@ def prod_select(cat_name, cat_id, db_connect):
         product_list.append(product_name)
 
     cursor.close()
-
+    
     while True:
         print()
         product = input("choississez un produit par son numéro : ")
+
         try:
             product = int(product)
-
         except ValueError:
             print("Vous devez choisir un nombre")
         else:
@@ -166,9 +170,8 @@ def prod_select(cat_name, cat_id, db_connect):
         if key == product-1:
             print(f"Vous avez choisi le produit : {value[0]}")
             prod_selected.append(value[0])
-
-    prod_selected.append(cat_id)
-    print()
+            prod_selected.append(cat_id)
+            print()
 
     return prod_selected
 
@@ -185,43 +188,114 @@ def display_substitutes(product, cat_id, db_connect):
 
     db = db_connect
     cursor = db.cursor()
-    sql_ngp = "SELECT nutrition_grade FROM product WHERE name = %(product)s"
 
-    cursor.execute(sql_ngp, {"product": product})
+    sql_ngp = """SELECT nutrition_grade
+        FROM product
+        WHERE
+            name = %(product)s"""
+
+    cursor.execute(
+        sql_ngp,
+        {"product": product}
+    )
 
     ng_p = ""
     for elt in cursor:
         ng_p = elt[0]
         print(f"le grade nutritionel du produit choisi est : {ng_p}")
+        print()
 
     sql_prod = """SELECT p.name,
                 p.description,
+                p.nutrition_grade,
                 p.store,
-                p.url,
-                p.nutrition_grade
+                p.url
                 FROM product as p
                 INNER JOIN category_product as cp
                     ON p.id = cp.product_id
                 WHERE
                     cp.category_id = %(cat_id)s"""
-                    
+
     cursor.execute(sql_prod, {"cat_id": cat_id})
 
-    ng_p = ord(ng_p)
+    substitute_list = []
+    nb_product = 1
+    for nb, elt in enumerate(cursor):
+        if ord(elt[2]) < ord(ng_p):
+            substitute_list.append([
+                {"Produit N°": nb_product},
+                {"name": elt[0]},
+                {"description": elt[1]},
+                {"nutrition_grade": elt[2]},
+                {"store": elt[3]},
+                {"url": elt[4]}]
+            )
+            nb_product += 1
+
+    if nb_product == 3:
+        if ord(elt[2]) == ord(ng_p):
+            substitute_list.append([
+                {"Produit N°": nb_product},
+                {"name": elt[0]},
+                {"description": elt[1]},
+                {"nutrition_grade": elt[2]},
+                {"store": elt[3]},
+                {"url": elt[4]}]
+            )   
+    for nb, elt in enumerate(substitute_list):
+        nb_val = 0
+        while nb_val < 6:
+            for val, data in elt[nb_val].items():
+                print(f"{val.upper()} : {data}")
+            nb_val += 1
+        print()
+
+    # ~ selection = ""
+    # ~ while selection != 'o' or selection != 'n':
+        # ~ print()
+        # ~ selection = input("Voulez vous choisir un produit ? (Oui/Non) : ")
+        # ~ if selection == "o":
+
+            # ~ while True:
+                # ~ print()
+                # ~ sub_select = input("choississez un produit par son numéro : ")
+
+                # ~ try:
+                    # ~ sub_select = int(sub_select)
+                # ~ except ValueError:
+                    # ~ print("Vous devez choisir un nombre")
+                # ~ else:
+                    # ~ if not 0 < sub_select < nb_product+2:
+                        # ~ print("Le produit doit être entre 1 et ", nb_product+1)
+                    # ~ else:
+                        # ~ break
+            # ~ print()
+            # ~ print(f"vous avez choisi le produit : {sub_select}")
+            # ~ print(sub_select, nb_product)
+            # ~ for nb, elt in enumerate(substitute_list):
+                # ~ if sub_select == nb_product+1:
+                    # ~ nb_val = 0
+                    # ~ while nb_val < 5:
+                        # ~ for val, data in elt[nb_val].items():
+                            # ~ print(f"{val.upper()} : {data}")
+                        # ~ nb_val += 1
+
+            # ~ break
+
+        # ~ elif selection == "n":
+            # ~ break
+
+
+def read_substitute(db_connect):
+
+    """display module for registered products"""
+
+    db = db_connect
+    cursor = db.cursor()
     print()
     print("Produit de Substitution")
     print("======= == ============")
     print()
-    for elt in cursor:
-        if ord(elt[4]) < ng_p:
-            print(f"Nom du Produit : {elt[0]}")
-            print(f"Description : {elt[1]}")
-            print(f"Grade Nutritionnel : '{elt[4]}'")
-            print(f"Magasin : {elt[2]}")
-            print(f"Fiche produit OpenFoodFact : {elt[3]}'")
-            print()
-
-    cursor.close()
 
 
 # ~ if __name__ == '__main__':

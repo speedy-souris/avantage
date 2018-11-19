@@ -10,12 +10,12 @@ import json
 # |  PRODUCTS AND CATEGORIES  |
 # |      INTO THE DATABASE    |
 #  ---------------------------
-def contained_database(data, name_cat, nb_product, connect_db):
+def contained_database(data, name_cat, nb_product, db_connect):
 
     """module containing the product characteristics of 
     (API OPENFOODFACT)"""
 
-    db = connect_db
+    db = db_connect
     cursor = db.cursor()
 
     #  --------------------
@@ -117,7 +117,31 @@ def erase_data(db_connect):
     cursor.execute("DELETE FROM category")
     cursor.execute("ALTER TABLE category AUTO_INCREMENT = 1")
 
-    db.commit()  # data erased
+    # data erased
+    db.commit()
+
+
+def backup_product(id_substitute, id_substituted, db_connect):
+
+    """backup module products"""
+
+    db = db_connect
+    cursor = db.cursor()
+
+    sql_backup = """INSERT INTO substitution_product(
+        product_id, 
+        product_id1)
+        VALUES(%(id_substitute)s, %(id_substituted)s)"""
+
+    val_backup = (
+        {"id_substitute": id_substitute},
+        {"id_substituted": id_substituted}
+    )
+
+    cursor.execute(sql_backup, val_backup)
+
+    # id product copied
+    db.commit()
 
 
 # ~ if __name__ == '__main__':
