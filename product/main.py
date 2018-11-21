@@ -9,7 +9,7 @@ from prod_processing import display_substitutes as s_prod
 
 
 #  ------------------------
-# |  Class for connection  | 
+# |  Class for connection  |
 # |     to the database    |
 #  ------------------------
 class DBConnect:
@@ -42,7 +42,7 @@ class DBConnect:
         """method of connecting the user to the database:
         """
 
-        print("mise a jour de la base de donnée...")
+        print("Verification de la base de donnée...")
         print()
         self.db_con = mysql.connector.connect(
             host=self.host,
@@ -51,6 +51,7 @@ class DBConnect:
             database=self.database
         )
         return self.db_con
+
 
 #  -----------------
 # |  main function  |

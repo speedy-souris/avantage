@@ -10,9 +10,9 @@ import json
 # |  PRODUCTS AND CATEGORIES  |
 # |      INTO THE DATABASE    |
 #  ---------------------------
-def contained_database(data, name_cat, nb_product, db_connect):
+def contained_database(data, name_cat, db_connect):
 
-    """module containing the product characteristics of 
+    """module containing the product characteristics of
     (API OPENFOODFACT)"""
 
     db = db_connect
@@ -36,16 +36,16 @@ def contained_database(data, name_cat, nb_product, db_connect):
     #  --------------------------------
     # |  read data from the json file  |
     #  --------------------------------
-    designation = ''
 
     with open(data) as json_category:
         category_dict = json.load(json_category)
-
+    nb_product = 0
     while nb_product <= category_dict['page_size']:
+
         try:
 
             #  ----------------------
-            # |   product data       | 
+            # |   product data       |
             # |        and           |
             # |  database filling    |
             #  ----------------------
@@ -59,7 +59,8 @@ def contained_database(data, name_cat, nb_product, db_connect):
 
             val_p = (
                 category_dict['products'][nb_product]['url'],
-                category_dict['products'][nb_product]['nutrition_grade_fr'],
+                category_dict[
+                    'products'][nb_product]['nutrition_grade_fr'],
                 category_dict['products'][nb_product]['generic_name_fr'],
                 category_dict['products'][nb_product]['product_name'],
                 category_dict['products'][nb_product]['stores']
@@ -112,6 +113,7 @@ def erase_data(db_connect):
     #  ----------------------------------------------
     db = db_connect
     cursor = db.cursor()
+
     cursor.execute("DELETE FROM product")
     cursor.execute("ALTER TABLE product AUTO_INCREMENT = 1")
     cursor.execute("DELETE FROM category")
@@ -129,7 +131,7 @@ def backup_product(id_substitute, id_substituted, db_connect):
     cursor = db.cursor()
 
     sql_backup = """INSERT INTO substitution_product(
-        product_id, 
+        product_id,
         product_id1)
         VALUES(%(id_substitute)s, %(id_substituted)s)"""
 

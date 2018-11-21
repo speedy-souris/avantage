@@ -17,7 +17,7 @@ def menu_category(db_connect):
     function menu_category (db_connect)
     with the parameter db_connect (connection to the database)"""
 
-    # cleaning database
+    # erase DB
     erase_db(db_connect)
 
     #  --------------------------
@@ -54,10 +54,11 @@ def menu_category(db_connect):
     # |  update of data in the database  |
     #  ----------------------------------
     for i, elt in enumerate(selection):
-        insert_data("json/" + selection[i][1], selection[i][0], i, db_connect)
+        insert_data("json/" + selection[i][1], selection[i][0], db_connect)
 
     print("1. Afficher le menu category")
     print("2. Voir produit enregistrer")
+    print("3. mise a jour de la base de donnée")
 
     starting = ""
     while True:
@@ -69,8 +70,8 @@ def menu_category(db_connect):
         except ValueError:
             print("Vous devez choisir un nombre")
         else:
-            if not 0 < starting < 2:
-                print("La catégorie doit être entre 1 et 2")
+            if not 0 < starting < 4:
+                print("La catégorie doit être entre 1 et 3")
             else:
                 break
 
@@ -87,7 +88,7 @@ def menu_category(db_connect):
             cat_id = input(
                 "choississez une catégory de produit par son numéro : "
             )
- 
+
             try:
                 cat_id = int(cat_id)
             except ValueError:
@@ -105,6 +106,13 @@ def menu_category(db_connect):
 
     elif starting == 2:
         read_substitute(db_connect)
+
+    elif starting == 3:
+        print()
+        print("Attention la mise à jour de la base de donnée ")
+        print("éfface toutes les données ")
+        print("ainsi que les enregistrements du choix de produit")
+        erasing = ""
 
 
 #  ---------------------------
@@ -149,7 +157,7 @@ def prod_select(cat_name, cat_id, db_connect):
         product_list.append(product_name)
 
     cursor.close()
-    
+
     while True:
         print()
         product = input("choississez un produit par son numéro : ")
@@ -202,7 +210,7 @@ def display_substitutes(product, cat_id, db_connect):
     ng_p = ""
     for elt in cursor:
         ng_p = elt[0]
-        print(f"le grade nutritionel du produit choisi est : {ng_p}")
+        print(f"le grade nutritionel du produit choisi est : {ng_p.upper()}")
         print()
 
     sql_prod = """SELECT p.name,
@@ -214,43 +222,39 @@ def display_substitutes(product, cat_id, db_connect):
                 INNER JOIN category_product as cp
                     ON p.id = cp.product_id
                 WHERE
-                    cp.category_id = %(cat_id)s"""
+                    p.nutrition_grade <= %(ng_p)s
+                        and
+                    cp.category_id = %(cat_id)s
+                        and
+                    p.name != %(product)s"""
 
-    cursor.execute(sql_prod, {"cat_id": cat_id})
+    cursor.execute(
+        sql_prod, {
+            "cat_id": cat_id,
+            "ng_p": ng_p,
+            "product": product}
+    )
 
     substitute_list = []
-    nb_product = 1
     for nb, elt in enumerate(cursor):
-        if ord(elt[2]) < ord(ng_p):
-            substitute_list.append([
-                {"Produit N°": nb_product},
-                {"name": elt[0]},
-                {"description": elt[1]},
-                {"nutrition_grade": elt[2]},
-                {"store": elt[3]},
-                {"url": elt[4]}]
-            )
-            nb_product += 1
+        substitute_list.append([
+            {"Produit N°": nb+1},
+            {"nom": elt[0]},
+            {"description": elt[1]},
+            {"grade_nutritionnel": elt[2].upper()},
+            {"magasin": elt[3]},
+            {"fiche_produit": elt[4]}]
+        )
 
-    if nb_product == 3:
-        if ord(elt[2]) == ord(ng_p):
-            substitute_list.append([
-                {"Produit N°": nb_product},
-                {"name": elt[0]},
-                {"description": elt[1]},
-                {"nutrition_grade": elt[2]},
-                {"store": elt[3]},
-                {"url": elt[4]}]
-            )   
-    for nb, elt in enumerate(substitute_list):
+    for elt in substitute_list[:3]:
         nb_val = 0
-        while nb_val < 6:
+        while nb_val < 5:
             for val, data in elt[nb_val].items():
                 print(f"{val.upper()} : {data}")
             nb_val += 1
         print()
 
-    # ~ selection = ""
+    # ~ selection = """
     # ~ while selection != 'o' or selection != 'n':
         # ~ print()
         # ~ selection = input("Voulez vous choisir un produit ? (Oui/Non) : ")
