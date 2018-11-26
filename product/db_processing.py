@@ -1,28 +1,28 @@
 #! /usr/bin/env python3
 # -*- coding:utf-8 -*-
 
-#  import module processing data json
+import os
+import time
+
 import json
 
 
-#  ---------------------------
+# +---------------------------+
 # |          INSERT           |
 # |  PRODUCTS AND CATEGORIES  |
 # |      INTO THE DATABASE    |
-#  ---------------------------
+# +---------------------------+
 def contained_database(data, name_cat, db_connect):
 
     """module containing the product characteristics of
-    (API OPENFOODFACT)"""
+    (API OPENFOODFACT (JSON Files))"""
 
     db = db_connect
     cursor = db.cursor()
 
-    #  --------------------
-    # |  category data     |
-    # |       and          |
-    # |  database filling  |
-    #  --------------------
+    # category data
+    #     and
+    # database filling
     sql_c = "INSERT INTO category(category) VALUES (%s)"
     val_c = (name_cat,)
 
@@ -33,22 +33,16 @@ def contained_database(data, name_cat, db_connect):
     # get the last id category from insertion
     last_cat = cursor.lastrowid
 
-    #  --------------------------------
-    # |  read data from the json file  |
-    #  --------------------------------
-
+    # read data from the json file
     with open(data) as json_category:
         category_dict = json.load(json_category)
     nb_product = 0
     while nb_product <= category_dict['page_size']:
 
         try:
-
-            #  ----------------------
-            # |   product data       |
-            # |        and           |
-            # |  database filling    |
-            #  ----------------------
+            # product data
+            #      and
+            # database filling
             sql_p = """INSERT INTO product(
                 url,
                 nutrition_grade,
@@ -77,7 +71,6 @@ def contained_database(data, name_cat, db_connect):
             #
             # filling of the link TABLE category_product_substition
             #
-
             cat_prod = [last_cat, last_prod]
             sql_cp = """INSERT INTO category_product(
                 category_id,
@@ -104,6 +97,10 @@ def contained_database(data, name_cat, db_connect):
     cursor.close()
 
 
+# +-------------------+
+# |  erasure module   |
+# |  of the database  |
+# +-------------------+
 def erase_data(db_connect):
 
     """module containing the erasure of the data"""
@@ -114,6 +111,8 @@ def erase_data(db_connect):
     db = db_connect
     cursor = db.cursor()
 
+    os.system("clear")
+    print("Mise a jour Base de donnée...")
     cursor.execute("DELETE FROM product")
     cursor.execute("ALTER TABLE product AUTO_INCREMENT = 1")
     cursor.execute("DELETE FROM category")
@@ -122,13 +121,34 @@ def erase_data(db_connect):
     # data erased
     db.commit()
 
+    time.sleep(1.5)
+    os.system("clear")
+    print("mise à jour terminé")
 
-def backup_product(id_substitute, id_substituted, db_connect):
+
+def backup_product(cat_id, name_product, id_substituted, db_connect):
 
     """backup module products"""
 
     db = db_connect
     cursor = db.cursor()
+
+    sql_id = """SELECT p.id
+        FROM product as p
+        INNER JOIN category_product as cp
+            ON p.id = cp.product_id
+        WHERE
+            cp.category_id = %(cat_id)s and p.name = %(name_product)s"""
+
+    cursor.execute(
+        sql_id, {
+            "cat_id": cat_id,
+            "name_product": name_product}
+    )
+
+    id_substitute = 0
+    for elt in cursor:
+        id_substitute = elt[0]
 
     sql_backup = """INSERT INTO substitution_product(
         product_id,
@@ -136,8 +156,8 @@ def backup_product(id_substitute, id_substituted, db_connect):
         VALUES(%(id_substitute)s, %(id_substituted)s)"""
 
     val_backup = (
-        {"id_substitute": id_substitute},
-        {"id_substituted": id_substituted}
+        {"id_substitute": id_substitute,
+         "id_substituted": id_substituted}
     )
 
     cursor.execute(sql_backup, val_backup)
