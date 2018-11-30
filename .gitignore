@@ -8,9 +8,11 @@ product.mwb.bak
 product/__pycache__/
 product/function/__init__.*
 product/function/__pycache__/
-product/json/
 product/process/__init__.*
 product/process/__pycache__/
+product/*.pyc
+/.gitignore
+
 
 
 

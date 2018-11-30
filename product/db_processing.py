@@ -1,10 +1,11 @@
 #! /usr/bin/env python3
 # -*- coding:utf-8 -*-
 
+import json
 import os
 import time
 
-import json
+import requests
 
 
 # +---------------------------+
@@ -37,7 +38,7 @@ def contained_database(data, name_cat, db_connect):
     with open(data) as json_category:
         category_dict = json.load(json_category)
     nb_product = 0
-    while nb_product <= category_dict['page_size']:
+    while nb_product <= category_dict["page_size"]:
 
         try:
             # product data
@@ -52,12 +53,11 @@ def contained_database(data, name_cat, db_connect):
                     VALUES (%s, %s, %s, %s, %s)"""
 
             val_p = (
-                category_dict['products'][nb_product]['url'],
-                category_dict[
-                    'products'][nb_product]['nutrition_grade_fr'],
-                category_dict['products'][nb_product]['generic_name_fr'],
-                category_dict['products'][nb_product]['product_name'],
-                category_dict['products'][nb_product]['stores']
+                category_dict["products"][nb_product]["url"],
+                category_dict["products"][nb_product]["nutrition_grade_fr"],
+                category_dict["products"][nb_product]["generic_name_fr"],
+                category_dict["products"][nb_product]["product_name"],
+                category_dict["products"][nb_product]["stores"],
             )
 
             cursor.execute(sql_p, val_p)
@@ -77,10 +77,7 @@ def contained_database(data, name_cat, db_connect):
                 product_id)
                     VALUES(%s, %s)"""
 
-            val_cp = (
-                cat_prod[0],
-                cat_prod[1]
-            )
+            val_cp = (cat_prod[0], cat_prod[1])
 
             cursor.execute(sql_cp, val_cp)
 
@@ -112,7 +109,7 @@ def erase_data(db_connect):
     cursor = db.cursor()
 
     os.system("clear")
-    print("Mise a jour Base de donnée...")
+    print("Effacement Base de donnée en cours ...")
     cursor.execute("DELETE FROM product")
     cursor.execute("ALTER TABLE product AUTO_INCREMENT = 1")
     cursor.execute("DELETE FROM category")
@@ -120,12 +117,16 @@ def erase_data(db_connect):
 
     # data erased
     db.commit()
-
-    time.sleep(1.5)
+    time.sleep(2)
     os.system("clear")
-    print("mise à jour terminé")
+    print("effacement Base de donnée effectués")
+    time.sleep(1)
 
 
+# +---------------------+
+# |  BACKUP SUBSTITUTE  |
+# |  IN THE DATABASE    |
+# +---------------------+
 def backup_product(cat_id, name_product, id_substituted, db_connect):
 
     """backup module products"""
@@ -140,11 +141,7 @@ def backup_product(cat_id, name_product, id_substituted, db_connect):
         WHERE
             cp.category_id = %(cat_id)s and p.name = %(name_product)s"""
 
-    cursor.execute(
-        sql_id, {
-            "cat_id": cat_id,
-            "name_product": name_product}
-    )
+    cursor.execute(sql_id, {"cat_id": cat_id, "name_product": name_product})
 
     id_substitute = 0
     for elt in cursor:
@@ -155,15 +152,107 @@ def backup_product(cat_id, name_product, id_substituted, db_connect):
         product_id1)
         VALUES(%(id_substitute)s, %(id_substituted)s)"""
 
-    val_backup = (
-        {"id_substitute": id_substitute,
-         "id_substituted": id_substituted}
-    )
+    val_backup = {"id_substitute": id_substitute, "id_substituted": id_substituted}
 
     cursor.execute(sql_backup, val_backup)
 
     # id product copied
     db.commit()
+
+
+# +---------------------------+
+# |          UPDATE           |
+# |  PRODUCTS AND CATEGORIES  |
+# |      INTO THE DATABASE    |
+# +---------------------------+
+def update_database(url, name_cat, db_connect):
+
+    """module containing the product characteristics of
+    (API OPENFOODFACT (JSON URL)"""
+
+    db = db_connect
+    cursor = db.cursor()
+
+    os.system("clear")
+    print("Mise à jour de la base de donnée en cours ...")
+    print()
+    print(url)
+    print()
+    # category data
+    #     and
+    # database filling
+    sql_c = "INSERT INTO category(category) VALUES (%s)"
+    val_c = (name_cat,)
+
+    cursor.execute(sql_c, val_c)
+
+    # category inserted
+    db.commit()
+    # get the last id category from insertion
+    last_cat = cursor.lastrowid
+
+    # read data from the json url
+    category_dict = requests.get(url)
+    category_dict = category_dict.json()
+
+    nb_product = 0
+    while nb_product <= category_dict["page_size"]:
+
+        try:
+            # product data
+            #      and
+            # database filling
+            sql_p = """INSERT INTO product(
+                url,
+                nutrition_grade,
+                description,
+                name,
+                store)
+                    VALUES (%s, %s, %s, %s, %s)"""
+
+            val_p = (
+                category_dict["products"][nb_product]["url"],
+                category_dict["products"][nb_product]["nutrition_grade_fr"],
+                category_dict["products"][nb_product]["generic_name_fr"],
+                category_dict["products"][nb_product]["product_name"],
+                category_dict["products"][nb_product]["stores"],
+            )
+
+            cursor.execute(sql_p, val_p)
+
+            # data inserted
+            db.commit()
+
+            # get the last id product from insertion
+            last_prod = cursor.lastrowid
+
+            #
+            # filling of the link TABLE category_product_substition
+            #
+            cat_prod = [last_cat, last_prod]
+            sql_cp = """INSERT INTO category_product(
+                category_id,
+                product_id)
+                    VALUES(%s, %s)"""
+
+            val_cp = (cat_prod[0], cat_prod[1])
+
+            cursor.execute(sql_cp, val_cp)
+
+            # id categeory and id product copied
+            db.commit()
+
+        except IndexError:
+            pass
+        except KeyError:
+            pass
+
+        nb_product += 1
+    
+    cursor.close()
+    os.system("clear")
+
+    
 
 
 # ~ if __name__ == '__main__':

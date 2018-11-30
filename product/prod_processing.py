@@ -2,17 +2,21 @@
 # -*- coding:utf-8 -*-
 
 import os
+import sys
 import time
 
-# DB insertion
 from db_processing import contained_database as insert_data
+from db_processing import erase_data as erase_db
+from db_processing import update_database as url_insert
+from main import cat_menu as c_menu
 
 
 # +---------------------+
-# |         MENU        |
-# |  CATEGORY  DISPLAY  |
+# |         CHECK        |
+# |      DATA DISPLAY    |
 # +---------------------+
-def menu_category(db_connect):
+def check_data(db_connect):
+
     """module containing the category menu
     function menu_category (db_connect)
     with the parameter db_connect (connection to the database)"""
@@ -42,17 +46,17 @@ def menu_category(db_connect):
         ["Sorbets", "sorbets.json"],
         ["Viandes", "viandes.json"],
         ["Vins", "vins.json"],
-        ["Yaourts", "yaourts.json"]
+        ["Yaourts", "yaourts.json"],
     ]
 
-    # verification / insertion / update of data in the database
+    # verification of data in the database
     db = db_connect
     cursor = db.cursor()
 
     sql_verif = """SELECT COUNT(*)
                 FROM product, category"""
 
-    cursor.execute(sql_verif,)
+    cursor.execute(sql_verif)
 
     print("Verification de la base de donnée...")
     print()
@@ -60,15 +64,25 @@ def menu_category(db_connect):
         if elt[0] == 0:
             for i, elt in enumerate(selection):
                 insert_data(
-                    "json/" + selection[i][1], selection[i][0], db_connect)
+                    "json/" + selection[i][1], selection[i][0], db_connect
+                )
         else:
-            time.sleep(1.5)
+            time.sleep(1)
     cursor.close()
-
     print("Verification terminé")
     print()
+
     time.sleep(1)
     os.system("clear")
+    return selection
+
+
+# +--------------+
+# |   DISPLAY    |
+# |    MENU      |
+# |   CATEGORY   |
+# +--------------+
+def menu_category(selection, db_connect):
 
     # display of the product category menu
     print("Menu de Catégorie Produit (OpenFoodFact)")
@@ -76,30 +90,6 @@ def menu_category(db_connect):
     print()
     for i, elt in enumerate(selection):
         print(f"{i+1}. {elt[0]}")
-
-    cat_id = ""
-    while True:
-        print()
-        cat_id = input(
-            "choississez une catégory de produit par son numéro : "
-        )
-
-        try:
-            cat_id = int(cat_id)
-        except ValueError:
-            print("Vous devez choisir un nombre")
-        else:
-            if not 0 < cat_id < 25:
-                print("La catégorie doit être entre 1 et 24")
-            else:
-                break
-
-    cat_name = [selection[cat_id-1][0], cat_id]
-    print("Vous avez choisi la catégorie ", cat_name[0].upper())
-
-    time.sleep(1.5)
-    os.system("clear")
-    return cat_name
 
 
 # +---------------------------+
@@ -133,10 +123,7 @@ def select_prod(cat_name, cat_id, db_connect):
         WHERE
             c.category = %(cat_name)s"""
 
-    cursor.execute(
-        sql,
-        {"cat_name": cat_name}
-    )
+    cursor.execute(sql, {"cat_name": cat_name})
 
     # menu of products of the chosen category
     nb_product = 0
@@ -146,35 +133,43 @@ def select_prod(cat_name, cat_id, db_connect):
         nb_product = i + 1
         product_list.append(product_name)
 
-    cursor.close()
-
     if not (product_list):
-        return
-
-    while True:
-        print()
-        product = input("choississez un produit par son numéro : ")
-
-        try:
-            product = int(product)
-        except ValueError:
-            print("Vous devez choisir un nombre")
-        else:
-            if not 0 < product < nb_product+1:
-                print("Le produit doit être entre 1 et ", nb_product)
-            else:
-                break
-
-    prod_selected = []
-    for key, value in enumerate(product_list):
-        if key == product-1:
-            print(f"Vous avez choisi le produit : {value[0].upper()}")
-            prod_selected.append(value[0])
-            prod_selected.append(cat_id)
+        return None
+    else:
+        while True:
             print()
-    time.sleep(1.5)
-    os.system("clear")
-    return prod_selected
+            selection = input("Voulez vous choisir un produit ? (Oui/Non) : ")
+            if selection.lower() == "o":
+                while True:
+                    print()
+                    product = input("choississez un produit par son numéro : ")
+
+                    try:
+                        product = int(product)
+                    except ValueError:
+                        print("Vous devez choisir un nombre")
+                    else:
+                        if not 0 < product < nb_product + 1:
+                            print("Le produit doit être entre 1 et ", nb_product)
+                        else:
+                            break
+                prod_selected = []
+                for key, value in enumerate(product_list):
+                    if key == product - 1:
+                        print(f"Vous avez choisi le produit : {value[0].upper()}")
+                        prod_selected.append(value[0])
+                        prod_selected.append(cat_id)
+                        print()
+
+                cursor.close()
+
+                time.sleep(1.5)
+                os.system("clear")
+                return prod_selected
+
+            elif selection.lower() == "n":
+                cursor.close()
+            break
 
 
 # +--------------+
@@ -195,10 +190,7 @@ def substitutes_display(product, cat_id, db_connect):
         WHERE
             name = %(product)s"""
 
-    cursor.execute(
-        sql_ngp,
-        {"product": product}
-    )
+    cursor.execute(sql_ngp, {"product": product})
 
     # display of the nutritional grade
     # for the category product
@@ -226,28 +218,30 @@ def substitutes_display(product, cat_id, db_connect):
                         and
                     p.name != %(product)s"""
 
-    cursor.execute(
-        sql_prod, {
-            "cat_id": cat_id,
-            "ng_p": ng_p,
-            "product": product}
+    cursor.execute(sql_prod, {
+        "cat_id": cat_id,
+        "ng_p": ng_p,
+        "product": product}
     )
+
     substitute_list = []
     for nb, elt in enumerate(cursor):
-        substitute_list.append([
-            {"Produit N°": nb+1},
-            {"nom": elt[0]},
-            {"description": elt[1]},
-            {"grade_nutritionnel": elt[2].upper()},
-            {"magasin": elt[3]},
-            {"fiche_produit": elt[4]}]
+        substitute_list.append(
+            [
+                {"Produit N°": nb + 1},
+                {"nom": elt[0]},
+                {"description": elt[1]},
+                {"grade_nutritionnel": elt[2].upper()},
+                {"magasin": elt[3]},
+                {"fiche_produit": elt[4]},
+            ]
         )
 
     # display of the three best substituted products
     product_display = []
     for elt in substitute_list[:3]:
         nb_val = 0
-        while nb_val < 5:
+        while nb_val < 6:
             for val, data in elt[nb_val].items():
                 print(f"{val.upper()} : {data}")
                 if nb_val == 1:
@@ -270,7 +264,7 @@ def substitutes_display(product, cat_id, db_connect):
 
                 try:
                     sub_select = int(sub_select)
-                    name_product = product_display[sub_select-1]
+                    name_product = product_display[sub_select - 1]
                 except ValueError:
                     print("Vous devez choisir un nombre")
                 else:
@@ -279,8 +273,10 @@ def substitutes_display(product, cat_id, db_connect):
                     else:
                         break
             print()
-            print(f"""vous avez choisi de sauvegarder le produit N°{
-                sub_select}""")
+            print(
+                f"""vous avez choisi de sauvegarder le produit N°{
+                sub_select}"""
+            )
 
             sql_selected = """SELECT p.id
                 FROM product as p
@@ -309,13 +305,17 @@ def substitutes_display(product, cat_id, db_connect):
             break
 
 
-def read_substitute(db_connect):
+# +-----------------------+
+# |  registered products  |
+# +-----------------------+
+def read_substitute(selection, db_connect):
 
     """display module for registered products"""
 
     db = db_connect
     cursor = db.cursor()
 
+    os.system("clear")
     print()
     print("Liste de Produit enregistre")
     print("===== == ======= ==========")
@@ -339,15 +339,17 @@ def read_substitute(db_connect):
             (SELECT sp1.product_id1
         FROM substitution_product as sp1)"""
 
-    cursor.execute(sql_substitute,)
+    cursor.execute(sql_substitute)
 
     for elt in cursor:
-        sub_product.append([
-            {"nom": elt[0]},
-            {"description": elt[1]},
-            {"grade_nutritionnel": elt[2].upper()},
-            {"magasin": elt[3]},
-            {"fiche_produit": elt[4]}]
+        sub_product.append(
+            [
+                {"nom": elt[0]},
+                {"description": elt[1]},
+                {"grade_nutritionnel": elt[2].upper()},
+                {"magasin": elt[3]},
+                {"fiche_produit": elt[4]},
+            ]
         )
 
     sql_substituted = """SELECT p2.name,
@@ -365,48 +367,169 @@ def read_substitute(db_connect):
                 (SELECT substitution_product.product_id
                 FROM substitution_product)"""
 
-    cursor.execute(sql_substituted,)
+    cursor.execute(sql_substituted)
 
     for elt in cursor:
-        product_sub.append([
-            {"nom": elt[0]},
-            {"description": elt[1]},
-            {"grade_nutritionnel": elt[2].upper()},
-            {"magasin": elt[3]},
-            {"fiche_produit": elt[4]}]
+        product_sub.append(
+            [
+                {"nom": elt[0]},
+                {"description": elt[1]},
+                {"grade_nutritionnel": elt[2].upper()},
+                {"magasin": elt[3]},
+                {"fiche_produit": elt[4]},
+            ]
         )
 
     cursor.close()
-
-    loop = 0
-    first = 0
-    last = 1
-    while loop < len(sub_product):
-        print(f"Produit Choisi N°{loop + 1}")
-        print("======= ====== ====")
-        for elt_1 in sub_product[first:last]:
-            nb_val_1 = 0
-            while nb_val_1 < 5:
-                for val_1, data_1 in elt_1[nb_val_1].items():
-                    print(f"{val_1.upper()} : {data_1}")
-                nb_val_1 += 1
-            print()
-            print("        .......")
+    if not (sub_product):
+        print("Pas de produits enregistrés...")
         print()
-        print(f"Produit Substitué N°{loop + 1}")
-        print("======= ========= ====")
-        for elt_2 in product_sub[first:last]:
-            nb_val_2 = 0
-            while nb_val_2 < 5:
-                for val_2, data_2 in elt_2[nb_val_2].items():
-                    print(f"{val_2.upper()} : {data_2}")
-                    nb_val_2 += 1
+    else:
+        loop = 0
+        first = 0
+        last = 1
+        while loop < len(sub_product):
+            print(f"Produit Choisi N°{loop + 1}")
+            print("======= ====== ====")
+            for elt_1 in sub_product[first:last]:
+                nb_val_1 = 0
+                while nb_val_1 < 5:
+                    for val_1, data_1 in elt_1[nb_val_1].items():
+                        print(f"{val_1.upper()} : {data_1}")
+                    nb_val_1 += 1
+                print()
+                print("        .......")
             print()
-            print("###################################################")
+            print(f"Produit Substitué N°{loop + 1}")
+            print("======= ========= ====")
+            for elt_2 in product_sub[first:last]:
+                nb_val_2 = 0
+                while nb_val_2 < 5:
+                    for val_2, data_2 in elt_2[nb_val_2].items():
+                        print(f"{val_2.upper()} : {data_2}")
+                        nb_val_2 += 1
+                print()
+                print("###################################################")
+                print()
+                first += 1
+                last += 1
+                loop += 1
+
+    while True:
+        go_menu = input("Tapez 'c' pour continuer : ")
+        if go_menu.lower() == "c":
+            os.system("clear")
+            break
+    c_menu()
+
+
+# +---------------------+
+# |         MENU        |
+# |  CATEGORY  DISPLAY  |
+# |    with url JSON    |
+# +---------------------+
+def menu_url(db_connect):
+
+    """module containing the category menu
+    whith the JSON URL"""
+
+    # product selection (format json)
+    selection = [
+        [
+            "Boissons_energetiques",
+            "https://fr.openfoodfacts.org/categorie/boissons-energisantes.json"
+        ],
+        ["Bonbons", "https://fr.openfoodfacts.org/categorie/bonbons.json"],
+        [
+            "Charcuteries",
+            "https://fr.openfoodfacts.org/categorie/charcuteries.json"
+        ],
+        ["Chocolats", "https://fr.openfoodfacts.org/categorie/chocolats.json"],
+        ["Conserves", "https://fr.openfoodfacts.org/categorie/conserves.json"],
+        ["Fromages", "https://fr.openfoodfacts.org/categorie/fromages.json"],
+        ["Fruits", "https://fr.openfoodfacts.org/categorie/fruits.json"],
+        [
+            "Fruits_confits",
+            "https://fr.openfoodfacts.org/categorie/fruits-confits.json",
+        ],
+        ["Gateaux", "https://fr.openfoodfacts.org/categorie/gateaux.json"],
+        ["Glaces", "https://fr.openfoodfacts.org/categorie/glaces.json"],
+        [
+            "Jus_de_fruits",
+            "https://fr.openfoodfacts.org/categorie/jus-de-fruits.json"
+        ],
+        ["Laits", "https://fr.openfoodfacts.org/categorie/laits.json"],
+        [
+            "Pates_de_fruit",
+            "https://fr.openfoodfacts.org/categorie/pates-de-fruits.json",
+        ],
+        ["Pates", "https://fr.openfoodfacts.org/categorie/pate.json"],
+        [
+            "Pates_a_tartiner",
+            "https://fr.openfoodfacts.org/categorie/pates-a-tartiner.json",
+        ],
+        ["Pizzas", "https://fr.openfoodfacts.org/category/pizzas.json"],
+        ["Poissons", "https://fr.openfoodfacts.org/categorie/poissons.json"],
+        [
+            "Poissons_elevages",
+            "https://fr.openfoodfacts.org/categorie/poisson-d'elevage.json",
+        ],
+        ["Reglisse", "https://fr.openfoodfacts.org/categorie/reglisse.json"],
+        ["Riz", "https://fr.openfoodfacts.org/categorie/riz.json"],
+        ["Sorbets", "https://fr.openfoodfacts.org/categorie/sorbets.json"],
+        ["Viandes", "https://fr.openfoodfacts.org/categorie/viandes.json"],
+        ["Vins", "https://fr.openfoodfacts.org/categorie/vins.json"],
+        ["Yaourts", "https://fr.openfoodfacts.org/categorie/yaourts.json"],
+    ]
+
+    # update of data in the database
+    db = db_connect
+    cursor = db.cursor()
+
+    for i, elt in enumerate(selection):
+        url_insert(selection[i][1], selection[i][0], db_connect)
+
+    return selection
+
+# +-----------+
+# |    MENU   |
+# |   SELECT  |
+# +-----------+
+def menu_select():
+    print()
+    print("Que Voulez vous faire ?")
+    print()
+    print("  - Mettre à jour BD      ==> 'm'")
+    print("  - Produits enregistrés  ==> 'p'")
+    print("  - Choisir une catégorie ==> 'o' / 'n'")
+    print("  - Quitter le programme  ==> 'q'")
+    print()
+
+    select = ""
+    while True:
+        select = input("Faites votre choix : ")
+        if select not in ("mponq"):
             print()
-            first += 1
-            last += 1
-        loop += 1
+            print("Le choix ne peut être que m, p, o, n ou q")
+            print()
+        else:
+            select = select.lower()
+            if select == "m":
+                return select
+
+            elif select == "p":
+                return select
+
+
+            elif select == "o":
+                return select
+
+
+            elif select == "n":
+                return select
+
+            elif select == "q":
+                sys.exit()
 
 
 # ~ if __name__ == '__main__':

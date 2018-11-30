@@ -2,16 +2,20 @@
 # -*- coding:utf-8 -*-
 
 import os
+import sys
 import time
 
 import mysql.connector
 
-from prod_processing import menu_category as m_cat
-from prod_processing import select_prod as m_prod
-from prod_processing import substitutes_display as s_prod
-from prod_processing import read_substitute as r_sub
-from db_processing import erase_data as erase_db
 from db_processing import backup_product as b_prod
+from db_processing import erase_data as erase_db
+from prod_processing import check_data as c_data
+from prod_processing import menu_category as m_cat
+from prod_processing import menu_select as m_select
+from prod_processing import menu_url as m_url
+from prod_processing import read_substitute as r_sub
+from prod_processing import select_prod as s_prod
+from prod_processing import substitutes_display as d_sub
 
 
 # +------------------------+
@@ -52,11 +56,36 @@ class DBConnect:
             host=self.host,
             user=self.user,
             password=self.password,
-            database=self.database
+            database=self.database,
         )
         return self.db_con
 
 
+# +-------------------------+
+# |                         |
+# |    continuity module    |
+# |     for the program     |
+# |                         |
+# + ------------------------+
+def continuity(data, db_con):
+    selection = ""
+    while True:
+        print()
+        selection = input("Voulez vous continuez ? (Oui / Non) : ")
+        if selection.lower() == "o":
+            os.system("clear")
+            m_cat(data, db_con)
+            m_select(data, db_con)
+        elif selection.lower() == "n":
+            break
+
+
+def cat_menu(data, db_con):
+    os.system("clear")
+    m_cat(data, db_con)
+    return m_select()
+    
+    
 # +-----------------+
 # |  main function  |
 # +-----------------+
@@ -86,69 +115,95 @@ def main():
     )
     db_con = student.db_connect()
 
+    # check data
+    data = c_data(db_con)
+
     # display menu category
-    category = m_cat(db_con)
-    # display menu product
-    product = m_prod(category[0], category[1], db_con)
+    select = cat_menu(data, db_con)
 
-    # substituted product display
-    backup = []
-    if not(product):
-        print()
-        print("Il n'y a pas de grade nutritionel dans cette catégorie !")
-    else:
-        backup = s_prod(product[0], product[1], db_con)
-
-    # backup of substituting and substituted products
-    if not(backup):
-        print()
-        print("Il n'y a pas de produit choisi")
-    else:
-        b_prod(product[1], backup[1], backup[0], db_con)
-
-    # display product list saved and database update
-    time.sleep(1.5)
-    os.system("clear")
-
-    print()
-    print("1. Voir la liste des produits enregistrés")
-    print("2. mise a jour de la base de donnée")
-
-    starting = ""
-    cat_name = []
+    # recall loop
     while True:
-        print()
-        starting = input("Choisissez 1 ou 2 : ")
-        print()
+        # update Data Base
+        if select == "m":
+            while True:
+                print()
+                print("Attention la mise à jour de la base de donnée ")
+                print("éfface toutes les données ")
+                print("ainsi que les enregistrements du choix de produit")
+                print()
+                update = input(
+                    "Voulez vous vraiment continuez ? (Oui / Non) : "
+                )
+                if update.lower() == "o":
+                    erase_db(db_con)
+                    m_url(db_con)
+                    print("Mise à Base de donnée terminé. ")
+                    time.sleep(1.3)
+                    os.system("clear")
+                    break
 
-        try:
-            starting = int(starting)
-        except ValueError:
-            print("Vous devez choisir un nombre")
-        else:
-            if not 0 < starting < 3:
-                print("La catégorie doit être entre 1 et 2")
-            else:
-                break
+                elif update.lower() == "n":
+                    os.system("clear")
+                    break
 
-    # display registered products
-    if starting == 1:
-        r_sub(db_con)
+        # registered products
+        elif select == "p":
+            r_sub(data, db_con)
+            os.system("clear")
+        
+        select = cat_menu(data, db_con)
+            
+    
 
-    # update of the database
-    elif starting == 2:
-        print()
-        print("Attention la mise à jour de la base de donnée ")
-        print("éfface toutes les données ")
-        print("ainsi que les enregistrements du choix de produit")
-        while True:
-            print()
-            update = input("Voulez vous vraiment continuez ? (Oui/Non) : ")
-            if update.lower() == "o":
-                erase_db(db_con)
-                break
-            elif update.lower() == "n":
-                break
+        # ~ elif select == "o":
+            # ~ while True:
+                # ~ cat_id = ""
+                # ~ cat_name = []
+                # ~ prod_name = []
+                # ~ sub_id = []
+                # ~ while True:
+                    # ~ print()
+                    # ~ cat_id = input(
+                        # ~ "choississez une catégory de produit par son numéro : "
+                    # ~ )
+
+                    # ~ try:
+                        # ~ cat_id = int(cat_id)
+                    # ~ except ValueError:
+                        # ~ print("Vous devez choisir un nombre")
+                    # ~ else:
+                        # ~ if not 0 < cat_id < 25:
+                            # ~ print("La catégorie doit être entre 1 et 24")
+                        # ~ else:
+                            # ~ break
+
+                # ~ cat_name = [data[cat_id - 1][0], cat_id]
+                # ~ print("Vous avez choisi la catégorie ", cat_name[0].upper())
+
+                # ~ time.sleep(1.5)
+                # ~ os.system("clear")
+
+                # ~ prod_name = s_prod(cat_name[0], cat_name[1], db_con)
+
+                # ~ if not (prod_name):
+                    # ~ print()
+                    # ~ print(
+                        # ~ "Il n'y a pas de grade nutritionel dans cette catégorie !"
+                    # ~ )
+                    # ~ print()
+                # ~ sub_id = d_sub(prod_name[0], cat_name[1], db_con)
+                # ~ break
+            # ~ if not (sub_id):
+                # ~ print()
+                # ~ print("Il n'y a pas de produit choisi !")
+                # ~ print()
+            # ~ b_prod(cat_name[1], sub_id[1], sub_id[0], db_con)
+            # ~ break
+
+        # ~ elif select == "n":
+            # ~ print()
+            # ~ print("Pas de choix effectuer...")
+            # ~ break
 
     # closing database
     db_con.close()
@@ -156,11 +211,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    selection = ""
-    while True:
-        print()
-        selection = input("Voulez vous continuez ? (Oui/Non) : ")
-        if selection.lower() == "o":
-            main()
-        elif selection.lower() == "n":
-            break
