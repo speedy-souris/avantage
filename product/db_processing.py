@@ -1,3 +1,7 @@
+"""database processing module
+read, update, insert data
+concerning products and their characteristics"""
+
 #! /usr/bin/env python3
 # -*- coding:utf-8 -*-
 
@@ -13,14 +17,14 @@ import requests
 # |  PRODUCTS AND CATEGORIES  |
 # |      INTO THE DATABASE    |
 # +---------------------------+
-def contained_database(data, name_cat, db_con):
+def contained_database(d_json, name_cat, db_con):
 
     """module containing the product characteristics of
     (API OPENFOODFACT (JSON Files))
 
     Args:
 
-        data           ==> memorizing the name of the products
+        d_json         ==> memorizing the name of the products
                             contained in the JSON data
 
         name_cat       ==> storage of the product category name
@@ -46,8 +50,8 @@ def contained_database(data, name_cat, db_con):
         sql_cp         ==> SQL query that inserts the product ids
                             and ids of their category"""
 
-    db = db_con
-    cursor = db.cursor()
+    dbase = db_con
+    cursor = dbase.cursor()
 
     # category data
     #     and
@@ -58,12 +62,12 @@ def contained_database(data, name_cat, db_con):
     cursor.execute(sql_c, val_c)
 
     # category inserted
-    db.commit()
+    dbase.commit()
     # get the last id category from insertion
     last_cat = cursor.lastrowid
 
     # read data from the json file
-    with open(data) as json_category:
+    with open(d_json) as json_category:
         category_dict = json.load(json_category)
     nb_product = 0
     while nb_product <= category_dict["page_size"]:
@@ -91,7 +95,7 @@ def contained_database(data, name_cat, db_con):
             cursor.execute(sql_p, val_p)
 
             # data inserted
-            db.commit()
+            dbase.commit()
 
             # get the last id product from insertion
             last_prod = cursor.lastrowid
@@ -110,7 +114,7 @@ def contained_database(data, name_cat, db_con):
             cursor.execute(sql_cp, val_cp)
 
             # id categeory and id product copied
-            db.commit()
+            dbase.commit()
 
         except IndexError:
             pass
@@ -149,8 +153,8 @@ def erase_data(db_con):
     # +----------------------------------------------+
     # |  database cleaning and AUTO_INCREMENT reset  |
     # +----------------------------------------------+
-    db = db_con
-    cursor = db.cursor()
+    dbase = db_con
+    cursor = dbase.cursor()
 
     os.system("clear")
     print("Effacement Base de donnée en cours ...")
@@ -160,7 +164,7 @@ def erase_data(db_con):
     cursor.execute("ALTER TABLE category AUTO_INCREMENT = 1")
 
     # data erased
-    db.commit()
+    dbase.commit()
     time.sleep(2)
     os.system("clear")
     print("effacement Base de donnée effectués")
@@ -200,8 +204,8 @@ def backup_product(cat_id, name_product, id_substituted, db_con):
         sql_backup     ==> SQL query that inserts the chosen product id
                             and insert the chosen substituted product id"""
 
-    db = db_con
-    cursor = db.cursor()
+    dbase = db_con
+    cursor = dbase.cursor()
 
     # selection the id of the chosen product
     sql_id = """SELECT p.id
@@ -233,7 +237,7 @@ def backup_product(cat_id, name_product, id_substituted, db_con):
     cursor.execute(sql_backup, val_backup)
 
     # id product copied
-    db.commit()
+    dbase.commit()
 
 
 # +---------------------------+
@@ -273,8 +277,8 @@ def update_database(url, name_cat, db_con):
         sql_cp         ==> SQL query that inserts the product ids
                             and ids of their category"""
 
-    db = db_con
-    cursor = db.cursor()
+    dbase = db_con
+    cursor = dbase.cursor()
 
     os.system("clear")
     print("Mise à jour de la base de donnée en cours ...")
@@ -290,7 +294,7 @@ def update_database(url, name_cat, db_con):
     cursor.execute(sql_c, val_c)
 
     # category inserted
-    db.commit()
+    dbase.commit()
     # get the last id category from insertion
     last_cat = cursor.lastrowid
 
@@ -324,7 +328,7 @@ def update_database(url, name_cat, db_con):
             cursor.execute(sql_p, val_p)
 
             # data inserted
-            db.commit()
+            dbase.commit()
 
             # get the last id product from insertion
             last_prod = cursor.lastrowid
@@ -343,7 +347,7 @@ def update_database(url, name_cat, db_con):
             cursor.execute(sql_cp, val_cp)
 
             # id categeory and id product copied
-            db.commit()
+            dbase.commit()
 
         except IndexError:
             pass

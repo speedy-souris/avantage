@@ -1,3 +1,5 @@
+"""module containing all product management"""
+
 #! /usr/bin/env python3
 # -*- coding:utf-8 -*-
 
@@ -16,20 +18,18 @@ from db_processing import update_database as url_insert
 # |    MENU      |
 # |   CATEGORY   |
 # +--------------+
-def menu_category(data):
+def menu_category(d_json):
 
     """product category menu display module
-
-        Args:
-
-            data       ==> memorization of the name of the product category"""
+    Args:
+        d_json       ==> memorization of the name
+                            of the product category"""
 
     # display of the product category menu
     print("Menu de Catégorie Produit (OpenFoodFact)")
     print("==== == ========= =======")
     print()
-
-    for i, elt in enumerate(data):
+    for i, elt in enumerate(d_json):
         print(f"{i+1}. {elt[0]}")
 
 
@@ -38,7 +38,7 @@ def menu_category(data):
 # |  PRODUCTS AND CATEGORIES  |
 # |      INTO THE DATABASE    |
 # +---------------------------+
-def select_prod(data, cat_name, cat_id, db_con, select=""):
+def select_prod(d_json, cat_name, cat_id, db_con, select=""):
 
     """module allowing the display of the product menu
     according to the chosen category display of products
@@ -49,8 +49,7 @@ def select_prod(data, cat_name, cat_id, db_con, select=""):
     with the function backup_product () alias b_product
 
     Args:
-
-        data           ==> memorizing the name of the products
+        d_json         ==> memorizing the name of the products
                             contained in the JSON data
 
         cat_name       ==> storage of the product category name
@@ -65,11 +64,9 @@ def select_prod(data, cat_name, cat_id, db_con, select=""):
                             after a bad choice on the list of products
 
     Vars:
-
         product_list[] ==> memorization of substitute products
 
     Funcs:
-
         choice()       ==> internal function concerning the product management
                             see detail in the function itself
 
@@ -77,13 +74,12 @@ def select_prod(data, cat_name, cat_id, db_con, select=""):
                             for continuing or stopping the script
 
     Queries:
-
             sql_prod   ==> SQL query that selects the products
                             from the database that are
                             in the chosen category"""
 
-    db = db_con
-    cursor = db.cursor()
+    dbase = db_con
+    cursor = dbase.cursor()
 
     print()
     print("menu produit de la categorie", cat_name.upper())
@@ -95,14 +91,11 @@ def select_prod(data, cat_name, cat_id, db_con, select=""):
         p.nutrition_grade as grade_nutritionnel,
         p.url as url_produit,
         p.store as magasin
-
     FROM product as p
-
     INNER JOIN category_product as cp
         ON p.id = cp.product_id
     INNER JOIN category as c
         ON c.id = cp.category_id
-
     WHERE
         c.category = %(cat_name)s"""
 
@@ -111,73 +104,68 @@ def select_prod(data, cat_name, cat_id, db_con, select=""):
     # menu of products of the chosen category
     nb_product = 0
     product_list = []
-
     for i, product_name in enumerate(cursor):
         print(f"{i+1}. {product_name[0]}")
         nb_product = i + 1
         product_list.append(product_name)
 
-    if not (product_list):
+    if product_list is not():
         return None
 
     # product choice request
-    else:
-        print()
-        if select == "":
-            while True:
-                selection = input(
-                    "Voulez vous choisir une produit (Oui /Non) : "
-                )
+    print()
+    if select == "":
+        while True:
+            selection = input(
+                "Voulez vous choisir une produit (Oui /Non) : "
+            )
+            # bad choice
+            if selection not in "on":
+                os.system("clear")
+                print("VOUS DEVEZ CHOISIR 'o' OU 'n'")
+                time.sleep(1.7)
+                os.system("clear")
 
-                # bad choice
-                if selection not in ("on"):
-                    os.system("clear")
-                    print("VOUS DEVEZ CHOISIR 'o' OU 'n'")
-                    time.sleep(1.7)
-                    os.system("clear")
+                select_prod(d_json, cat_name, cat_id, db_con)
 
-                    select_prod(data, cat_name, cat_id, db_con)
+            # accept the request for product choice
+            else:
+                if selection == "o":
+                    choice(
+                        d_json, cat_name, cat_id,
+                        db_con, nb_product, product_list
+                    )
 
-                # accept the request for product choice
-                else:
-                    if selection == "o":
-                        choice(
-                            data, cat_name, cat_id,
-                            db_con, nb_product, product_list
-                        )
+                # no product choice
+                elif selection.lower() == "n":
+                    print()
+                    print("Vous n'avez pas choisi de Produit")
+                    print()
 
-                    # no product choice
-                    elif selection.lower() == "n":
-                        print()
-                        print("Vous n'avez pas choisi de Produit")
-                        print()
+                    continuity(d_json, db_con)
 
-                        continuity(data, db_con)
-
-        # accept the request for choice produced after a wrong choice
-        elif select == "o":
-            selection = select
-
-            if selection == "o":
-                choice(
-                    data, cat_name, cat_id,
-                    db_con, nb_product, product_list
-                )
+    # accept the request for choice produced after a wrong choice
+    elif select == "o":
+        selection = select
+        if selection == "o":
+            choice(
+                d_json, cat_name, cat_id,
+                db_con, nb_product, product_list
+            )
 
 
 # +-------------+
 # |   CHOICE    |
 # |   PRODUCT   |
 # +-------------+
-def choice(data, cat_name, cat_id, db_con, nb_product, product_list):
+def choice(d_json, cat_name, cat_id, db_con, nb_product, product_list):
 
     """treatment module of choice produced
     after acceptance of product choice
 
     Args:
-
-        data           ==> memorizing the name of the products
-                            contained in the JSON data
+        d_json         ==> memorizing the name of the products
+                           contained in the JSON data
 
         cat_name       ==> storage of the product category name
 
@@ -189,13 +177,10 @@ def choice(data, cat_name, cat_id, db_con, nb_product, product_list):
         nb_product     ==> number of products in the chosen category
 
         product_list   ==> list of products in the chosen category
-
     Vars:
-
         sub_id         ==> memorization of the chosen substitute product id
 
     Funcs:
-
         substitutes_display() ==> display module and choice
                                     of substitution product
                                     for the chosen product
@@ -222,7 +207,7 @@ def choice(data, cat_name, cat_id, db_con, nb_product, product_list):
             time.sleep(1.5)
             os.system("clear")
 
-            select_prod(data, cat_name, cat_id, db_con, "o")
+            select_prod(d_json, cat_name, cat_id, db_con, "o")
 
         # out of bounds
         else:
@@ -232,7 +217,7 @@ def choice(data, cat_name, cat_id, db_con, nb_product, product_list):
                 time.sleep(1.5)
                 os.system("clear")
 
-                select_prod(data, cat_name, cat_id, db_con, "o")
+                select_prod(d_json, cat_name, cat_id, db_con, "o")
 
             else:
                 break
@@ -247,14 +232,14 @@ def choice(data, cat_name, cat_id, db_con, nb_product, product_list):
     # Display of the product menu to substitute
     # memorize the chosen product
     sub_id = substitutes_display(
-        data, product_list[product-1][0],
+        d_json, product_list[product-1][0],
         cat_id, db_con
     )
 
     # save the stored product in the database
     b_product(cat_id, product_list[product-1][0], sub_id, db_con)
 
-    continuity(data, db_con)
+    continuity(d_json, db_con)
 
 
 # +-------------------------+
@@ -266,16 +251,13 @@ def menu_url(db_con):
     for an online update of the database
 
     Args:
-
         db_con         ==> link to the database
 
     Vars:
-
         selection[]    ==> memorizing the category name
                             and JSON online data link (internet access)
 
     Funcs:
-
         update_database() alias url_insert ==> insert JSON data
                                                 into the database
                                                 see more detail
@@ -329,12 +311,9 @@ def menu_url(db_con):
         ["Yaourts", "https://fr.openfoodfacts.org/categorie/yaourts.json"],
     ]
 
-    db = db_con
-    cursor = db.cursor()
-
     # update of data in the database
-    for i, elt in enumerate(selection):
-        url_insert(selection[i][1], selection[i][0], db_con)
+    for elt in selection:
+        url_insert(elt[1], elt[0], db_con)
 
     return selection
 
@@ -343,27 +322,25 @@ def menu_url(db_con):
 # |    MENU   |
 # |   SELECT  |
 # +-----------+
-def menu_select(data, db_con, selection=""):
+def menu_select(d_json, db_con, selection=""):
 
     """general menu display module of choice
         for different actions on the database
 
     Args:
-
-        data           ==> memorizing the name of the products
-                            contained in the JSON data
+        d_json         ==> memorizing the name of the products
+                                contained in the JSON data
 
         db_con         ==> link to the database
 
         selection      ==> memorizing the choice of action on the database
                             for a reminder of this module
                             after a bad choice on the list of actions
-    Vars:
 
+    Vars:
         select         ==> memorizing the choice of action on the database
 
     Funcs:
-
         cat_menu()     ==> Displaying the general menu of categories
                             see more detail in the module itself
 
@@ -374,7 +351,6 @@ def menu_select(data, db_con, selection=""):
     print()
     print("Que Voulez vous faire ?")
     print()
-
     print("  - Mettre à jour BD      ==> 'm'")
     print("  - Produits enregistrés  ==> 'p'")
     print("  - Choisir une catégorie ==> 'o'")
@@ -386,45 +362,42 @@ def menu_select(data, db_con, selection=""):
             select = input("Faites votre choix : ")
 
             # bad choice
-            if select not in ("mpoq"):
+            if select not in "mpoq":
                 print()
                 print("LE CHOIX NE PEUT ÊTRE QUE 'm', 'p', 'o' ou 'q'")
                 time.sleep(1.3)
 
-                cat_menu(data, db_con)
+                cat_menu(d_json, db_con)
 
             # choice management main menu
             else:
                 select = select.lower()
-                return recall_menu(select, data, db_con)
+                recall_menu(select, d_json, db_con)
 
     # choice management main menu after a bad choice
     else:
-        recall_menu(selection, data, db_con)
+        recall_menu(selection, d_json, db_con)
 
 
 # +-------------------------+
 # |    continuity module    |
 # |     for the program     |
 # + ------------------------+
-def continuity(data, db_con):
+def continuity(d_json, db_con):
 
     """module of choice for continuing or stopping the script
 
     Args:
-
-        data           ==> memorizing the name of the products
-                            contained in the JSON data
+        d_json         ==> memorizing the name of the products
+                           contained in the JSON data
 
         db_con         ==> link to the database
 
     Vars:
-
         selection      ==> memorization of the choice
                             to continue or stop the script
 
     Funcs:
-
         cat_menu()     ==> Displaying the general menu of categories
                             see more detail in the module itself"""
 
@@ -432,9 +405,8 @@ def continuity(data, db_con):
     while True:
         print()
         selection = input("Voulez vous continuez ? (Oui / Non) : ")
-
         # bab choice
-        if selection not in ("on"):
+        if selection not in "on":
             os.system("clear")
             print()
             print("VOUS DEVEZ CHOISIR 'o' OU 'n'")
@@ -443,7 +415,7 @@ def continuity(data, db_con):
         elif selection.lower() == "o":
             os.system("clear")
 
-            cat_menu(data, db_con)
+            cat_menu(d_json, db_con)
 
         # stop the script
         elif selection.lower() == "n":
@@ -453,13 +425,12 @@ def continuity(data, db_con):
 # +--------------------------+
 # |  Starting category menu  |
 # +--------------------------+
-def cat_menu(data, db_con, selection=""):
+def cat_menu(d_json, db_con, selection=""):
 
     """Display module of the general category menu
 
     Args:
-
-        data           ==> memorizing the name of the products
+        d_json         ==> memorizing the name of the products
                             contained in the JSON data
 
         db_con         ==> link to the database
@@ -469,41 +440,38 @@ def cat_menu(data, db_con, selection=""):
                             after a bad choice on the list of actions
 
     Funcs:
-
         menu_category() ==> product category menu display module
-                                see more detail in the module itself
+                            see more detail in the module itself
 
         menu_select()  ==> general menu display module of choice
                             for different actions on the database
                             see more detail in the module itself"""
 
     os.system("clear")
-    menu_category(data)
+    menu_category(d_json)
 
-    return menu_select(data, db_con, selection)
+    return menu_select(d_json, db_con, selection)
 
 
 # +------------------------+
 # |  recall menu category  |
 # +------------------------+
-def recall_menu(select, data, db_con):
+def recall_menu(select, d_json, db_con):
 
     """processing module of the choice made from the general menu of choice
         in the select_menu () module
 
     Args:
-
         select         ==> memorizing the choice of action on the database
                             for a reminder of this module
                             after a bad choice on the list of actions
 
-        data           ==> memorizing the name of the products
+        d_json         ==> memorizing the name of the products
                             contained in the JSON data
 
         db_con         ==> link to the database
 
     Vars:
-
         update         ==> memorization of the choice
                             concerning the update of the database
 
@@ -513,12 +481,10 @@ def recall_menu(select, data, db_con):
 
         prod_name[]    ==> memorization of product choice
                             without nutrition grade
-
         choice         ==> memorizing the choice
                             of continuation or stop of the script
 
     Funcs:
-
         menu_select()  ==> general menu display module of choice
                             for different actions on the database
                             see more detail in the module itself
@@ -553,14 +519,13 @@ def recall_menu(select, data, db_con):
             print()
 
             update = input("Voulez vous vraiment continuez ? (Oui / Non) : ")
-
             # bad choice
-            if update not in ("on"):
+            if update not in "on":
                 os.system("clear")
                 print("Vous devez CHOISIR 'o' OU 'n'")
                 time.sleep(1.5)
 
-                menu_select(data, db_con, "m")
+                menu_select(d_json, db_con, "m")
 
             # accepting the update of the database
             elif update.lower() == "o":
@@ -579,12 +544,12 @@ def recall_menu(select, data, db_con):
 
         time.sleep(1.3)
 
-        cat_menu(data, db_con)
+        cat_menu(d_json, db_con)
 
     # registered products
     elif select == "p":
-        read_substitute(data, db_con)
-        cat_menu(data, db_con)
+        read_substitute(d_json, db_con)
+        cat_menu(d_json, db_con)
 
     # category choice
     elif select == "o":
@@ -606,7 +571,7 @@ def recall_menu(select, data, db_con):
                 print("Vous devez choisir un NOMBRE ")
                 time.sleep(1.5)
 
-                cat_menu(data, db_con, "o")
+                cat_menu(d_json, db_con, "o")
 
             # out of bounds
             else:
@@ -615,12 +580,12 @@ def recall_menu(select, data, db_con):
                     print("La catégorie DOIT COMPRISE ÊTRE ENTRE 1 ET 24")
                     time.sleep(1.5)
 
-                    cat_menu(data, db_con, "o")
+                    cat_menu(d_json, db_con, "o")
 
                 else:
                     break
 
-        cat_name = [data[cat_id - 1][0], cat_id]
+        cat_name = [d_json[cat_id - 1][0], cat_id]
         print()
         print("Vous avez choisi la catégorie ", cat_name[0].upper())
 
@@ -628,14 +593,14 @@ def recall_menu(select, data, db_con):
         os.system("clear")
 
         # manage products without nutritional grade
-        prod_name = select_prod(data, cat_name[0], cat_name[1], db_con)
+        prod_name = select_prod(d_json, cat_name[0], cat_name[1], db_con)
 
-        if not (prod_name):
+        if not prod_name:
             print()
             print("Il n'y a pas de grade nutritionel dans cette catégorie !")
             print()
 
-            continuity(data, db_con)
+            continuity(d_json, db_con)
 
     # confirmation request to stop
     # the script without choosing a product
@@ -646,46 +611,43 @@ def recall_menu(select, data, db_con):
         print()
 
         while True:
-            choice = input("Voulez vous vraiment arretez ? (Oui / Non) : ")
-
-            if choice not in ("on"):
+            choosen = input("Voulez vous vraiment arretez ? (Oui / Non) : ")
+            if choosen not in "on":
                 os.system("clear")
                 print("Vous devez choisir 'o' ou 'n'")
                 time.sleep(1.5)
 
-                recall_menu("q", data, db_con)
+                recall_menu("q", d_json, db_con)
 
-            elif choice.lower() == "o":
+            elif choosen.lower() == "o":
                 sys.exit()
 
-            elif choice.lower() == "n":
+            elif choosen.lower() == "n":
                 break
 
-        cat_menu(data, db_con)
+        cat_menu(d_json, db_con)
 
-    elif not (prod_name[0]):
+    elif not prod_name[0]:
         print()
         print("Il n'y a pas de produit choisi !")
 
-        continuity(data, db_con)
+        continuity(d_json, db_con)
 
 
 # +-----------------------+
 # |  registered products  |
 # +-----------------------+
-def read_substitute(data, db_con):
+def read_substitute(d_json, db_con):
 
     """display module for registered products
 
     Args:
-
-        data           ==> memorizing the name of the products
+        d_json          ==> memorizing the name of the products
                             contained in the JSON data
 
-        db_con         ==> link to the database
+        db_con          ==> link to the database
 
     Vars:
-
         sub_product[]  ==> memorization of the list of products chosen
 
         product_sub[]  ==> memorisation of the list of substituted products
@@ -701,20 +663,18 @@ def read_substitute(data, db_con):
                             display product category
 
     Funcs:
-
         cat_menu()     ==> Display module of the general category menu
                             see more detail in the module itself
 
     Queries:
-
         sql_substitute ==> SQL query that selects the list
                             of selected products
 
         sql_substituted ==> SQL query that selects the list
                             of substituted products"""
 
-    db = db_con
-    cursor = db.cursor()
+    dbase = db_con
+    cursor = dbase.cursor()
 
     os.system("clear")
     print()
@@ -724,22 +684,17 @@ def read_substitute(data, db_con):
 
     sub_product = []
     product_sub = []
-
     # selection of selected products
     sql_substitute = """SELECT p1.name,
         p1.description,
         p1.nutrition_grade,
         p1.store,
         p1.url
-
     FROM product as p2
-
     INNER JOIN substitution_product as sp
         ON p2.id = sp.product_id1
-
     INNER JOIN product p1
         ON sp.product_id = p1.id
-
     WHERE
         sp.product_id1 in
             (SELECT sp1.product_id1
@@ -765,15 +720,11 @@ def read_substitute(data, db_con):
         p2.nutrition_grade,
         p2.store,
         p2.url
-
     FROM product as p1
-
     INNER JOIN substitution_product as sp
         ON p1.id = sp.product_id
-
     INNER JOIN product as p2
         ON sp.product_id1 = p2.id
-
     WHERE
         sp.product_id in
             (SELECT substitution_product.product_id
@@ -796,7 +747,7 @@ def read_substitute(data, db_con):
     cursor.close()
 
     # list of registered products empty
-    if not (sub_product):
+    if not sub_product:
         print("Pas de produits enregistrés...")
         print()
 
@@ -804,19 +755,17 @@ def read_substitute(data, db_con):
         loop = 0
         first = 0
         last = 1
-
         # selected product registered
         while loop < len(sub_product):
             print(f"Produit Choisi N°{loop + 1}")
             print("======= ====== ====")
 
-            for elt_1 in sub_product[first:last]:
-                nb_val_1 = 0
-
-                while nb_val_1 < 5:
-                    for val_1, data_1 in elt_1[nb_val_1].items():
-                        print(f"{val_1.upper()} : {data_1}")
-                    nb_val_1 += 1
+            for p_elt in sub_product[first:last]:
+                nb_val = 0
+                while nb_val < 5:
+                    for p_val, p_data in p_elt[nb_val].items():
+                        print(f"{p_val.upper()} : {p_data}")
+                    nb_val += 1
 
                 print()
                 print("        .......")
@@ -826,16 +775,15 @@ def read_substitute(data, db_con):
             print(f"Produit Substitué N°{loop + 1}")
             print("======= ========= ====")
 
-            for elt_2 in product_sub[first:last]:
+            for ps_elt in product_sub[first:last]:
                 nb_val_2 = 0
                 while nb_val_2 < 5:
-                    for val_2, data_2 in elt_2[nb_val_2].items():
-                        print(f"{val_2.upper()} : {data_2}")
+                    for ps_val, ps_data_2 in ps_elt[nb_val_2].items():
+                        print(f"{ps_val.upper()} : {ps_data_2}")
                         nb_val_2 += 1
                 print()
                 print("###################################################")
                 print()
-
                 first += 1
                 last += 1
                 loop += 1
@@ -843,20 +791,19 @@ def read_substitute(data, db_con):
     # return condition category general menu
     while True:
         go_menu = input("Tapez 'c' pour continuer : ")
-
         if go_menu != "c":
             os.system("clear")
             print()
             print("Veuillez Taper LA LETTRE 'c' SVP !")
-
             time.sleep(1.5)
-            read_substitute(data, db_con)
+
+            read_substitute(d_json, db_con)
 
         elif go_menu.lower() == "c":
             os.system("clear")
             break
 
-    cat_menu(data, db_con)
+    cat_menu(d_json, db_con)
 
 
 # +--------------+
@@ -864,15 +811,14 @@ def read_substitute(data, db_con):
 # |   PRODUCT    |
 # |  SUBSTITUTE  |
 # +--------------+
-def substitutes_display(data, product, cat_id, db_con):
+def substitutes_display(d_json, product, cat_id, db_con):
 
     """module for displaying products that are substituted
     from a product selected in a category
 
     Args:
-
-        data           ==> memorizing the name of the products
-                            contained in the JSON data
+        d_json         ==> memorizing the name of the products
+                                contained in the JSON data
 
         product        ==> memorization of the selected product
                             in the category menu
@@ -882,7 +828,6 @@ def substitutes_display(data, product, cat_id, db_con):
         db_con         ==> link to the database
 
     Vars:
-
         substitute_list[] ==> memorization of the list
                                     of substituted products
 
@@ -900,12 +845,10 @@ def substitutes_display(data, product, cat_id, db_con):
                             of the substituted product chosen
 
     Funcs:
-
         continuity()   ==> module of choice
                             for continuing or stopping the script
 
     Queries:
-
         sql_ngp        ==> SQL query that selects the nutritional grade
                             of the chosen product
 
@@ -915,8 +858,8 @@ def substitutes_display(data, product, cat_id, db_con):
         sql_selected   ==> SQL query that selects
                             the chosen substitute product id"""
 
-    db = db_con
-    cursor = db.cursor()
+    dbase = db_con
+    cursor = dbase.cursor()
 
     sql_ngp = """SELECT nutrition_grade
         FROM product
@@ -932,8 +875,8 @@ def substitutes_display(data, product, cat_id, db_con):
     print(f"Produit de substitution pour {product.upper()}")
     print()
 
-    for elt in cursor:
-        ng_p = elt[0]
+    for elt_sub in cursor:
+        ng_p = elt_sub[0]
         print(f"le grade nutritionel du produit choisi est : {ng_p.upper()}")
         print()
 
@@ -943,12 +886,9 @@ def substitutes_display(data, product, cat_id, db_con):
                 p.nutrition_grade,
                 p.store,
                 p.url
-
             FROM product as p
-
             INNER JOIN category_product as cp
                 ON p.id = cp.product_id
-
             WHERE
                 p.nutrition_grade <= %(ng_p)s
                     and
@@ -963,31 +903,27 @@ def substitutes_display(data, product, cat_id, db_con):
 
     # memorization of substituted products
     substitute_list = []
-    for nb, elt in enumerate(cursor):
+    for nb_p, elt_sub in enumerate(cursor):
         substitute_list.append(
             [
-                {"Produit N°": nb + 1},
-                {"nom": elt[0]},
-                {"description": elt[1]},
-                {"grade_nutritionnel": elt[2].upper()},
-                {"fiche_produit": elt[4]},
-                {"magasin": elt[3]},
+                {"Produit N°": nb_p + 1},
+                {"nom": elt_sub[0]},
+                {"description": elt_sub[1]},
+                {"grade_nutritionnel": elt_sub[2].upper()},
+                {"fiche_produit": elt_sub[4]},
+                {"magasin": elt_sub[3]},
             ]
         )
 
     # display of the three best substituted products
     product_display = []
-    for elt in substitute_list[:3]:
-
+    for elt_sub3 in substitute_list[:3]:
         nb_val = 0
         while nb_val < 6:
-
-            for val, data in elt[nb_val].items():
-                print(f"{val.upper()} : {data}")
-
+            for sub3_val, sub3_data in elt_sub3[nb_val].items():
+                print(f"{sub3_val.upper()} : {sub3_data-1}")
                 if nb_val == 1:
-                    product_display.append(data)
-
+                    product_display.append(sub3_data)
             nb_val += 1
         print()
 
@@ -1010,12 +946,10 @@ def substitutes_display(data, product, cat_id, db_con):
                     name_product = product_display[sub_select - 1]
                 except ValueError:
                     print("Vous devez choisir un nombre")
-
                 # wrong choice of number
                 else:
                     if not 0 < sub_select < 4:
                         print("Le produit doit être entre 1 et 3")
-
                     else:
                         break
 
@@ -1028,25 +962,21 @@ def substitutes_display(data, product, cat_id, db_con):
             # selection of the chosen substitute product id
             sql_selected = """SELECT p.id
                 FROM product as p
-
                 WHERE
                     p.name = %(name_product)s"""
 
             cursor.execute(sql_selected, {"name_product": name_product})
 
-            for elt in cursor:
-                product_id = elt[0]
-
+            for sub_elt in cursor:
+                product_id = sub_elt[0]
             print()
             time .sleep(1.5)
             os.system("clear")
-
             # backup of the chosen product
             # and backup of the chosen substituted product
             print("Sauvegarde en cours...")
             time.sleep(2)
             os.system("clear")
-
             print()
             print(f"le produit substituant {product.upper()}")
             print(f"et le produit substitué {name_product.upper()}")
@@ -1060,7 +990,7 @@ def substitutes_display(data, product, cat_id, db_con):
             cursor.close()
             break
 
-    continuity(data, db_con)
+    continuity(d_json, db_con)
 
 
 # +----------------------+
@@ -1074,22 +1004,19 @@ def check_data(db_con):
         data filling with local JSON data (JSON file)
 
     Args:
-
         db_con         ==> link to the database
 
     Vars:
-
         selection      ==> memorization name category and local link
                             JSON data (JSON file)
 
     Funcs:
-
         contained_database() alias insert_data ==> module containing
                                                     the product characteristics
                                                     see more detail
                                                     in the module itself
-    Queries:
 
+    Queries:
         sql_verif      ==> SQL query that selects the total number
                             of data in the product and category tables"""
 
@@ -1122,8 +1049,8 @@ def check_data(db_con):
     ]
 
     # verification of data in the database
-    db = db_con
-    cursor = db.cursor()
+    dbase = db_con
+    cursor = dbase.cursor()
 
     sql_verif = """SELECT COUNT(*)
                 FROM product, category"""
@@ -1132,13 +1059,13 @@ def check_data(db_con):
 
     print("Verification de la base de donnée...")
     print()
-    for elt in cursor:
+    for nb_product in cursor:
 
         # if the product table and the category table are empty
         # insert local JSON data
-        if elt[0] == 0:
-            for i, elt in enumerate(selection):
-                insert_data("json/" + selection[i][1], selection[i][0], db_con)
+        if nb_product[0] == 0:
+            for prod_elt in selection:
+                insert_data("json/" + prod_elt[1], prod_elt[0], db_con)
         else:
             time.sleep(1)
 
@@ -1146,7 +1073,6 @@ def check_data(db_con):
 
     print("Verification terminé")
     print()
-
     time.sleep(1)
     os.system("clear")
     return selection
