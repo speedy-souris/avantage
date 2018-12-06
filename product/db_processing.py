@@ -13,12 +13,40 @@ import requests
 # |  PRODUCTS AND CATEGORIES  |
 # |      INTO THE DATABASE    |
 # +---------------------------+
-def contained_database(data, name_cat, db_connect):
+def contained_database(data, name_cat, db_con):
 
     """module containing the product characteristics of
-    (API OPENFOODFACT (JSON Files))"""
+    (API OPENFOODFACT (JSON Files))
 
-    db = db_connect
+    Args:
+
+        data           ==> memorizing the name of the products
+                            contained in the JSON data
+
+        name_cat       ==> storage of the product category name
+
+        db_con         ==> link to the database
+
+    Vars:
+
+        last_cat       ==> memorize the last insertion ID
+
+        category_dict[] ==> memorize local JSON data
+
+        cat_prod[]     ==> memorize the latest id category
+                            and the last product id
+
+    Queries:
+
+        sql_c          ==> SQL query that inserts the product categories
+
+        sql_p          ==> SQL query that inserts products
+                            from the same category
+
+        sql_cp         ==> SQL query that inserts the product ids
+                            and ids of their category"""
+
+    db = db_con
     cursor = db.cursor()
 
     # category data
@@ -98,14 +126,30 @@ def contained_database(data, name_cat, db_connect):
 # |  erasure module   |
 # |  of the database  |
 # +-------------------+
-def erase_data(db_connect):
+def erase_data(db_con):
 
-    """module containing the erasure of the data"""
+    """module containing the erasure of the data
 
-    #  ----------------------------------------------
+    Args:
+
+        db_con     ==> link to the database
+
+    Queries:
+
+        SQL query that clears the product table
+
+        SQL query that updates the auto increment to 1
+            in the product table
+
+        SQL query that clears the category table
+
+        SQL query that updates the auto increment to 1
+            in the category table"""
+
+    # +----------------------------------------------+
     # |  database cleaning and AUTO_INCREMENT reset  |
-    #  ----------------------------------------------
-    db = db_connect
+    # +----------------------------------------------+
+    db = db_con
     cursor = db.cursor()
 
     os.system("clear")
@@ -127,13 +171,39 @@ def erase_data(db_connect):
 # |  BACKUP SUBSTITUTE  |
 # |  IN THE DATABASE    |
 # +---------------------+
-def backup_product(cat_id, name_product, id_substituted, db_connect):
+def backup_product(cat_id, name_product, id_substituted, db_con):
 
-    """backup module products"""
+    """backup module products
 
-    db = db_connect
+    Args:
+
+        cat_id         ==> memorization of the id
+                            of the chosen product category
+
+        name_product   ==> storage of the product category name
+
+        id_substituted ==> memorization of the id
+                            of the substituted and chosen product
+
+        db_con         ==> link to the database
+
+    Vars:
+
+        id_substitute  ==> memorization of the id
+                            of the substituted product chosen
+
+    Queries:
+
+        sql_id         ==> SQL query that selects the id
+                            of the chosen product
+
+        sql_backup     ==> SQL query that inserts the chosen product id
+                            and insert the chosen substituted product id"""
+
+    db = db_con
     cursor = db.cursor()
 
+    # selection the id of the chosen product
     sql_id = """SELECT p.id
         FROM product as p
         INNER JOIN category_product as cp
@@ -143,16 +213,22 @@ def backup_product(cat_id, name_product, id_substituted, db_connect):
 
     cursor.execute(sql_id, {"cat_id": cat_id, "name_product": name_product})
 
+    # saving the id of the chosen product
     id_substitute = 0
     for elt in cursor:
         id_substitute = elt[0]
 
+    # inserting the id of the chosen product
+    # and inserting the id of the chosen substituted product
     sql_backup = """INSERT INTO substitution_product(
         product_id,
         product_id1)
         VALUES(%(id_substitute)s, %(id_substituted)s)"""
 
-    val_backup = {"id_substitute": id_substitute, "id_substituted": id_substituted}
+    val_backup = {
+        "id_substitute": id_substitute,
+        "id_substituted": id_substituted
+    }
 
     cursor.execute(sql_backup, val_backup)
 
@@ -165,12 +241,39 @@ def backup_product(cat_id, name_product, id_substituted, db_connect):
 # |  PRODUCTS AND CATEGORIES  |
 # |      INTO THE DATABASE    |
 # +---------------------------+
-def update_database(url, name_cat, db_connect):
+def update_database(url, name_cat, db_con):
 
     """module containing the product characteristics of
-    (API OPENFOODFACT (JSON URL)"""
+    (API OPENFOODFACT (JSON URL)
 
-    db = db_connect
+    Args:
+
+        url            ==> storing the update URL of the database
+
+        name_cat       ==> storage of the product category name
+
+        db_con         ==> link to the database
+
+    Vars:
+
+       last_cat       ==> memorize the last insertion ID
+
+        category_dict[] ==> memorize internet JSON data
+
+        cat_prod[]     ==> memorize the latest id category
+                            and the last product id
+
+    Queries:
+
+        sql_c          ==> SQL query that inserts the product categories
+
+        sql_p          ==> SQL query that inserts products
+                            from the same category
+
+        sql_cp         ==> SQL query that inserts the product ids
+                            and ids of their category"""
+
+    db = db_con
     cursor = db.cursor()
 
     os.system("clear")
@@ -248,11 +351,9 @@ def update_database(url, name_cat, db_connect):
             pass
 
         nb_product += 1
-    
+
     cursor.close()
     os.system("clear")
-
-    
 
 
 # ~ if __name__ == '__main__':
