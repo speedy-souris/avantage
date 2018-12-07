@@ -4,7 +4,7 @@ filled in the case with local JSON data
 then displays the general menu containing the product category list
 to choose to obtain a substitute product of better nutrional quality"""
 
-#! /usr/bin/env python3
+# ! /usr/bin/env python3
 # -*- coding:utf-8 -*-
 
 import os
@@ -12,7 +12,7 @@ import os
 import mysql.connector
 
 from prod_processing import cat_menu as c_menu
-from prod_processing import check_data as c_data
+from prod_methode import check_data as c_data
 
 
 # +------------------------+

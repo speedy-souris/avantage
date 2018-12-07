@@ -21,32 +21,20 @@ def contained_database(d_json, name_cat, db_con):
 
     """module containing the product characteristics of
     (API OPENFOODFACT (JSON Files))
-
     Args:
-
         d_json         ==> memorizing the name of the products
                             contained in the JSON data
-
         name_cat       ==> storage of the product category name
-
         db_con         ==> link to the database
-
     Vars:
-
         last_cat       ==> memorize the last insertion ID
-
         category_dict[] ==> memorize local JSON data
-
         cat_prod[]     ==> memorize the latest id category
                             and the last product id
-
     Queries:
-
         sql_c          ==> SQL query that inserts the product categories
-
         sql_p          ==> SQL query that inserts products
                             from the same category
-
         sql_cp         ==> SQL query that inserts the product ids
                             and ids of their category"""
 
@@ -133,20 +121,13 @@ def contained_database(d_json, name_cat, db_con):
 def erase_data(db_con):
 
     """module containing the erasure of the data
-
     Args:
-
         db_con     ==> link to the database
-
     Queries:
-
         SQL query that clears the product table
-
         SQL query that updates the auto increment to 1
             in the product table
-
         SQL query that clears the category table
-
         SQL query that updates the auto increment to 1
             in the category table"""
 
@@ -178,29 +159,19 @@ def erase_data(db_con):
 def backup_product(cat_id, name_product, id_substituted, db_con):
 
     """backup module products
-
     Args:
-
         cat_id         ==> memorization of the id
                             of the chosen product category
-
         name_product   ==> storage of the product category name
-
         id_substituted ==> memorization of the id
                             of the substituted and chosen product
-
         db_con         ==> link to the database
-
     Vars:
-
         id_substitute  ==> memorization of the id
                             of the substituted product chosen
-
     Queries:
-
         sql_id         ==> SQL query that selects the id
                             of the chosen product
-
         sql_backup     ==> SQL query that inserts the chosen product id
                             and insert the chosen substituted product id"""
 
@@ -249,31 +220,19 @@ def update_database(url, name_cat, db_con):
 
     """module containing the product characteristics of
     (API OPENFOODFACT (JSON URL)
-
     Args:
-
         url            ==> storing the update URL of the database
-
         name_cat       ==> storage of the product category name
-
         db_con         ==> link to the database
-
     Vars:
-
        last_cat       ==> memorize the last insertion ID
-
         category_dict[] ==> memorize internet JSON data
-
         cat_prod[]     ==> memorize the latest id category
                             and the last product id
-
     Queries:
-
         sql_c          ==> SQL query that inserts the product categories
-
         sql_p          ==> SQL query that inserts products
                             from the same category
-
         sql_cp         ==> SQL query that inserts the product ids
                             and ids of their category"""
 
@@ -358,6 +317,3 @@ def update_database(url, name_cat, db_con):
 
     cursor.close()
     os.system("clear")
-
-
-# ~ if __name__ == '__main__':
