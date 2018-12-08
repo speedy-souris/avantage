@@ -2,7 +2,7 @@ env/
 Planning.ods
 .~lock.*
 test.py
-JSON/
+*.zip
 product.mwb
 product.mwb.bak
 product/__pycache__/
