@@ -13,7 +13,7 @@ product/process/__pycache__/
 product/*.pyc
 *.odt
 *.pdf
-/.gitignore
+.gitignore
 
 
 
