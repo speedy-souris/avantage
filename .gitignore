@@ -1,0 +1,14 @@
+env/
+Planning.ods
+.~lock.*
+test.py
+JSON/
+product.mwb
+product.mwb.bak
+product/__pycache__/
+product/function/__init__.*
+product/function/__pycache__/
+product/process/__init__.*
+product/process/__pycache__/
+product/*.pyc
+*.odt
