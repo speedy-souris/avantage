@@ -11,6 +11,8 @@ product/function/__pycache__/
 product/process/__init__.*
 product/process/__pycache__/
 product/*.pyc
+*.odt
+*.pdf
 /.gitignore
 
 

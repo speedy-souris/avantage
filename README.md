@@ -47,33 +47,45 @@ Script de traitement développer en *PYTHON*
 
 ### Installation du projet 
 
-Pour infos :
-
+**Pour infos :**
 >la procédure d’installation décrite et le codage du script ont été effectués
 >sous le système Linux UBUNTU 18.04 64 bits pour une utilisation en console
->
->installation à partir du fichier ZIP
 
+**Installation à partir du fichier ZIP**
 >décompressez le fichier projet5.ZIP dans le répertoire de votre choix 
-
-positionnez vous dans le répertoire ou vous venez de décompresser le fichier
-
+>
+>positionnez vous dans le répertoire ou vous venez de décompresser le fichier
+>
+>verifiez bien que mysql soit installer sur votre ordinateur
+> 
 >Ensuite ouvrir le serveur MySQL en mode administrateur dans la console
 >avec la commande *sudo mysql* puis validez avec la touche *ENTRE* 
 >puis renseignez votre mot de passe administrateur
-
-(aucun caractère ne s’affiche pendant la saisie)
-
-un message de bienvenu dans mysql s’affiche
-
->une fois connecter au server mysql la console affiche *Mysql>*
-
->entrez la commande *SOURCE product_substitution.sql* ce qui a pour effet de créer la base de données
-
-* *food_product* avec ses quatre tables
-* *product*,
-* *category*,
-* *category_product*,
-* *substitution_product*
+>(aucun caractère ne s’affiche pendant la saisie)
+>
+>une fois connecter au server mysql la console affiche **Mysql>**
+>
+>entrez la commande **SOURCE product_substitution.sql;** ce qui a pour effet de créer la base de données
+>
+>**food_product** avec ses quatre tables
+>* **product**,
+>* **category**,
+>* **category_product**,
+>* **substitution_product**
+>
+>et de vous connecter à la base de données **food_product**
+>
+>Vérifiez que tout c'est bien passé en tapant la commande **SHOW TABLES;**
+>
+>Quittez la base de données avec la commande **quit** ou **exit**
+>
+>Verifiez que python3 soit installer sur votre ordinateur
+>
+>Commencez par installer les dépendances dont le script à besoin
+>avec la commande **pip install -r requirements.txt**
+>
+>Tapez la commande **cd product** pour venir dans le repertoire des modules
+>
+>Vous pouvez maintenant lancer le script avec la commande **python3 main.py**
 
 
