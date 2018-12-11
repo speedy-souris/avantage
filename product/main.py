@@ -15,54 +15,6 @@ from prod_processing import cat_menu as c_menu
 from prod_methode import check_data as c_data
 
 
-# +------------------------+
-# |  Class for connection  |
-# |     to the database    |
-# + -----------------------+
-class DBConnect:
-
-    """the DBConnect class is characterized by:
-    - his host
-    - his user
-    - his password
-    - his database"""
-
-    # DBConnect class constructor method
-    def __init__(self, host, user, password, database):
-
-        """
-        constructor of the DBConnect class
-        Args:
-            - host (BD server address)
-            - user (username)
-            - password (user password)
-            - database (name of the database)"""
-
-        self.host = host
-        self.user = user
-        self.password = password
-        self.database = database
-
-    # initialization method at the connection of the database
-    def db_connect(self):
-
-        """method of connecting the user to the database:
-        Args:
-            - self.db_con (mysql.connector)
-            - self.host
-            - self.user
-            - self.password
-            - self.database"""
-
-        self.db_con = mysql.connector.connect(
-            host=self.host,
-            user=self.user,
-            password=self.password,
-            database=self.database,
-        )
-        return self.db_con
-
-
 # +-----------------+
 # |  main function  |
 # +-----------------+
@@ -93,21 +45,20 @@ def main():
     print("le programme de Substitution de produit est lancé ! ")
     print()
 
-    student = DBConnect(
-        "localhost",
-        "student",
-        "OpenClassRooms",
-        "food_product"
+    student = mysql.connector.connect(
+        host="localhost",
+        user="student",
+        password="OpenClassRooms",
+        database="food_product"
     )
-    db_con = student.db_connect()
 
     # check data
-    d_json = c_data(db_con)
+    d_json = c_data(student)
     # Menu category
-    c_menu(d_json, db_con)
+    c_menu(d_json, student)
 
     # closing database
-    db_con.close()
+    student.close()
 
 
 if __name__ == "__main__":

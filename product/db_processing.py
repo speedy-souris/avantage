@@ -2,7 +2,7 @@
 read, update, insert data
 concerning products and their characteristics"""
 
-#! /usr/bin/env python3
+# ! /usr/bin/env python3
 # -*- coding:utf-8 -*-
 
 import json

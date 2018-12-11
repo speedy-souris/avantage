@@ -12,3 +12,6 @@ product/process/__init__.*
 product/process/__pycache__/
 product/*.pyc
 *.odt
+.idea/
+presentation/
+
